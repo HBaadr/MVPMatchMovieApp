@@ -1,6 +1,7 @@
 package com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses
 
 data class MovieResponse(
+    val Ratings: List<Rating>,
     val Actors: String,
     val Awards: String,
     val BoxOffice: String,
@@ -14,7 +15,6 @@ data class MovieResponse(
     val Poster: String,
     val Production: String,
     val Rated: String,
-    val Ratings: List<Rating>,
     val Released: String,
     val Response: String,
     val Runtime: String,

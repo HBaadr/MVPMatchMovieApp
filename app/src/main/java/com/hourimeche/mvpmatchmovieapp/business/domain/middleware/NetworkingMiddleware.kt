@@ -8,7 +8,7 @@ import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
 import com.hourimeche.mvpmatchmovieapp.presentation.main.MainAction
 import com.hourimeche.mvpmatchmovieapp.presentation.main.MainState
 
-class LoginNetworkingMiddleware(private val moviesService: MoviesService) :
+class NetworkingMiddleware(private val moviesService: MoviesService) :
     Middleware<MainState, MainAction> {
 
     override suspend fun process(
