@@ -1,13 +1,13 @@
-package com.hourimeche.mvpmatchmovieapp.ui.main
+package com.hourimeche.mvpmatchmovieapp.presentation.main
 
-import com.hourimeche.mvpmatchmovieapp.model.MovieResponse
-import com.hourimeche.mvpmatchmovieapp.model.SearchResponse
-import com.hourimeche.mvpmatchmovieapp.redux.State
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
+import com.hourimeche.mvpmatchmovieapp.business.domain.redux.State
 
 /**
  * An implementation of [State] that describes the configuration of the login screen at a given time.
  */
-data class MainViewState(
+data class MainState(
     val query: String = "",
     val id: String = "",
     val showProgressBar: Boolean = false,

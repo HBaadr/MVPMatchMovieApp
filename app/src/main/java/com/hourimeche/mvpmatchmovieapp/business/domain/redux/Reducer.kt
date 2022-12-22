@@ -1,4 +1,4 @@
-package com.hourimeche.mvpmatchmovieapp.redux
+package com.hourimeche.mvpmatchmovieapp.business.domain.redux
 
 interface Reducer<S : State, A : Action> {
 

@@ -1,8 +1,8 @@
-package com.hourimeche.mvpmatchmovieapp.data
+package com.hourimeche.mvpmatchmovieapp.business.datasource.network
 
-import com.hourimeche.mvpmatchmovieapp.config.Constants
-import com.hourimeche.mvpmatchmovieapp.model.MovieResponse
-import com.hourimeche.mvpmatchmovieapp.model.SearchResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
+import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

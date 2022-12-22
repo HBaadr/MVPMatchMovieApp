@@ -1,4 +1,4 @@
-package com.hourimeche.mvpmatchmovieapp.redux
+package com.hourimeche.mvpmatchmovieapp.business.domain.redux
 
 /**
  * A [Middleware] is any class that deals with side effects of actions. This can be logging,

@@ -1,4 +1,4 @@
-package com.hourimeche.mvpmatchmovieapp.model
+package com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses
 
 data class MovieResponse(
     val Actors: String,

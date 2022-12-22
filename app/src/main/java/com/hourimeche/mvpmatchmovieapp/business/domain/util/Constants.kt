@@ -1,4 +1,4 @@
-package com.hourimeche.mvpmatchmovieapp.config
+package com.hourimeche.mvpmatchmovieapp.business.domain.util
 
 object Constants {
     const val API_KEY: String = "ae33a4d4" // omdbapi api key

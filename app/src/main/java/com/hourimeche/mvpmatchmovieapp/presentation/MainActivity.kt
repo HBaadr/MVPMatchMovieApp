@@ -1,8 +1,9 @@
-package com.hourimeche.mvpmatchmovieapp
+package com.hourimeche.mvpmatchmovieapp.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.hourimeche.mvpmatchmovieapp.ui.main.MainFragment
+import com.hourimeche.mvpmatchmovieapp.R
+import com.hourimeche.mvpmatchmovieapp.presentation.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,8 +1,8 @@
-package com.hourimeche.mvpmatchmovieapp.ui.main
+package com.hourimeche.mvpmatchmovieapp.presentation.main
 
-import com.hourimeche.mvpmatchmovieapp.model.MovieResponse
-import com.hourimeche.mvpmatchmovieapp.model.SearchResponse
-import com.hourimeche.mvpmatchmovieapp.redux.Action
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
+import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Action
 
 
 /**

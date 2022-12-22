@@ -1,7 +1,7 @@
-package com.hourimeche.mvpmatchmovieapp.data
+package com.hourimeche.mvpmatchmovieapp.business.datasource.network
 
 
-import com.hourimeche.mvpmatchmovieapp.config.Constants
+import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

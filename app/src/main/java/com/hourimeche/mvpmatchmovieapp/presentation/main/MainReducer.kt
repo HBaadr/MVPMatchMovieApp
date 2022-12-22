@@ -1,19 +1,19 @@
-package com.hourimeche.mvpmatchmovieapp.ui.main
+package com.hourimeche.mvpmatchmovieapp.presentation.main
 
-import com.hourimeche.mvpmatchmovieapp.redux.Reducer
+import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Reducer
 
 /**
  * This reducer is responsible for handling any [MainAction], and using that to create
- * a new [MainViewState].
+ * a new [MainState].
  */
-class MainReducer : Reducer<MainViewState, MainAction> {
+class MainReducer : Reducer<MainState, MainAction> {
 
     /**
      * Side note: Notice that all of the functions are named in a way that they signify they're
      * returning a new state, and not just processing information. This helps keep your when statements
      * clear that they're returning stuff, so that context isn't lost.
      */
-    override fun reduce(currentState: MainViewState, action: MainAction): MainViewState {
+    override fun reduce(currentState: MainState, action: MainAction): MainState {
         return when (action) {
             is MainAction.Error -> {
                 currentState.copy(

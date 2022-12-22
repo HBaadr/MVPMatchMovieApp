@@ -1,4 +1,4 @@
-package com.hourimeche.mvpmatchmovieapp.redux
+package com.hourimeche.mvpmatchmovieapp.business.domain.redux
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

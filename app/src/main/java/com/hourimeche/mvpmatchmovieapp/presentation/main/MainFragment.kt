@@ -1,4 +1,4 @@
-package com.hourimeche.mvpmatchmovieapp.ui.main
+package com.hourimeche.mvpmatchmovieapp.presentation.main
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun processViewState(viewState: MainViewState) {
+    private fun processViewState(viewState: MainState) {
 
         lifecycleScope.launch {
             binding.progressCircular.visibility =

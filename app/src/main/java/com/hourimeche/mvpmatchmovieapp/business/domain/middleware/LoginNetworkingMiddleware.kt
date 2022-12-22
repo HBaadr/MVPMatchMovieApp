@@ -1,19 +1,19 @@
-package com.hourimeche.mvpmatchmovieapp.middleware
+package com.hourimeche.mvpmatchmovieapp.business.domain.middleware
 
 import android.util.Log
-import com.hourimeche.mvpmatchmovieapp.config.Constants
-import com.hourimeche.mvpmatchmovieapp.data.RetrofitClient
-import com.hourimeche.mvpmatchmovieapp.redux.Middleware
-import com.hourimeche.mvpmatchmovieapp.redux.Store
-import com.hourimeche.mvpmatchmovieapp.ui.main.MainAction
-import com.hourimeche.mvpmatchmovieapp.ui.main.MainViewState
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.RetrofitClient
+import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Middleware
+import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
+import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
+import com.hourimeche.mvpmatchmovieapp.presentation.main.MainAction
+import com.hourimeche.mvpmatchmovieapp.presentation.main.MainState
 
-class LoginNetworkingMiddleware : Middleware<MainViewState, MainAction> {
+class LoginNetworkingMiddleware : Middleware<MainState, MainAction> {
 
     override suspend fun process(
         action: MainAction,
-        currentState: MainViewState,
-        store: Store<MainViewState, MainAction>,
+        currentState: MainState,
+        store: Store<MainState, MainAction>,
     ) {
         when (action) {
             is MainAction.SearchMovies -> {
@@ -27,7 +27,7 @@ class LoginNetworkingMiddleware : Middleware<MainViewState, MainAction> {
     }
 
     private suspend fun getMovie(
-        store: Store<MainViewState, MainAction>,
+        store: Store<MainState, MainAction>,
         movieId: String,
     ) {
         store.dispatch(MainAction.Loading)
@@ -47,7 +47,7 @@ class LoginNetworkingMiddleware : Middleware<MainViewState, MainAction> {
     }
 
     private suspend fun searchMovies(
-        store: Store<MainViewState, MainAction>,
+        store: Store<MainState, MainAction>,
         query: String,
     ) {
         store.dispatch(MainAction.Loading)
