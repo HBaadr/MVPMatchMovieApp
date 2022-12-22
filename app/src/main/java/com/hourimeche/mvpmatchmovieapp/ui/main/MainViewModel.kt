@@ -20,8 +20,8 @@ class MainViewModel : ViewModel() {
 
     val viewState: StateFlow<MainViewState> = store.state
 
-    fun getMovie(title: String) {
-        val action = MainAction.GetMoviesWithTitle(title)
+    fun getMovie(movieId: String) {
+        val action = MainAction.GetMovie(movieId)
 
         viewModelScope.launch {
             store.dispatch(action)
@@ -29,7 +29,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun searchMovies(title: String) {
-        val action = MainAction.GetMoviesWithTitle(title)
+        val action = MainAction.SearchMovies(title)
 
         viewModelScope.launch {
             store.dispatch(action)

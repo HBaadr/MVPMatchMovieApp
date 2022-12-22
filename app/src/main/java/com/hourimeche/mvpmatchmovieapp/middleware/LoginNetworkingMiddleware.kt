@@ -16,21 +16,24 @@ class LoginNetworkingMiddleware : Middleware<MainViewState, MainAction> {
         store: Store<MainViewState, MainAction>,
     ) {
         when (action) {
-            is MainAction.GetMoviesWithTitle -> {
-                searchMovies(store, action.title)
+            is MainAction.SearchMovies -> {
+                searchMovies(store, action.query)
+            }
+            is MainAction.GetMovie -> {
+                getMovie(store, action.movieId)
             }
             else -> {}
         }
     }
 
-    private suspend fun searchTitle(
+    private suspend fun getMovie(
         store: Store<MainViewState, MainAction>,
-        title: String,
+        movieId: String,
     ) {
         store.dispatch(MainAction.Loading)
 
-        val response = RetrofitClient.instance?.apiService?.getMovieByTitle(
-            title,
+        val response = RetrofitClient.instance?.apiService?.getMovieById(
+            movieId,
             Constants.API_KEY
         )
         Log.d("LoggingMiddleware", response.toString())
@@ -45,12 +48,12 @@ class LoginNetworkingMiddleware : Middleware<MainViewState, MainAction> {
 
     private suspend fun searchMovies(
         store: Store<MainViewState, MainAction>,
-        title: String,
+        query: String,
     ) {
         store.dispatch(MainAction.Loading)
 
         val response = RetrofitClient.instance?.apiService?.getMoviesBySearch(
-            title,
+            query,
             Constants.API_KEY
         )
         Log.d("LoggingMiddleware", response.toString())

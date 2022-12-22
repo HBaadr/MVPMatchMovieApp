@@ -33,9 +33,14 @@ class MainReducer : Reducer<MainViewState, MainAction> {
                     searchResponse = action.searchResponse,
                 )
             }
-            is MainAction.GetMoviesWithTitle -> {
+            is MainAction.GetMovie -> {
                 currentState.copy(
-                    title = action.title,
+                    id = action.movieId,
+                )
+            }
+            is MainAction.SearchMovies -> {
+                currentState.copy(
+                    query = action.query,
                 )
             }
             MainAction.Loading -> {
