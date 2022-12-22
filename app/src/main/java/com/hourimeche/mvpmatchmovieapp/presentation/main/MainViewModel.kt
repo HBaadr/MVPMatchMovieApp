@@ -2,19 +2,25 @@ package com.hourimeche.mvpmatchmovieapp.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.LoggingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.LoginNetworkingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    moviesService: MoviesService
+) : ViewModel() {
     private val store = Store(
         initialState = MainState(),
         reducer = MainReducer(),
         middlewares = listOf(
             LoggingMiddleware(),
-            LoginNetworkingMiddleware(),
+            LoginNetworkingMiddleware(moviesService),
         )
     )
 

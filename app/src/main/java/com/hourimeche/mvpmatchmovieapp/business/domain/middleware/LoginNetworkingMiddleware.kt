@@ -1,14 +1,15 @@
 package com.hourimeche.mvpmatchmovieapp.business.domain.middleware
 
 import android.util.Log
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.RetrofitClient
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Middleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
 import com.hourimeche.mvpmatchmovieapp.presentation.main.MainAction
 import com.hourimeche.mvpmatchmovieapp.presentation.main.MainState
 
-class LoginNetworkingMiddleware : Middleware<MainState, MainAction> {
+class LoginNetworkingMiddleware(private val moviesService: MoviesService) :
+    Middleware<MainState, MainAction> {
 
     override suspend fun process(
         action: MainAction,
@@ -32,14 +33,12 @@ class LoginNetworkingMiddleware : Middleware<MainState, MainAction> {
     ) {
         store.dispatch(MainAction.Loading)
 
-        val response = RetrofitClient.instance?.apiService?.getMovieById(
+        val response = moviesService.getMovieById(
             movieId,
             Constants.API_KEY
         )
         Log.d("LoggingMiddleware", response.toString())
-        if (response == null) {
-            store.dispatch(MainAction.Error("Response null"))
-        } else if (response.isSuccessful) {
+        if (response.isSuccessful) {
             store.dispatch(MainAction.Success(response.body()!!))
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))
@@ -52,14 +51,12 @@ class LoginNetworkingMiddleware : Middleware<MainState, MainAction> {
     ) {
         store.dispatch(MainAction.Loading)
 
-        val response = RetrofitClient.instance?.apiService?.getMoviesBySearch(
+        val response = moviesService.getMoviesBySearch(
             query,
             Constants.API_KEY
         )
         Log.d("LoggingMiddleware", response.toString())
-        if (response == null) {
-            store.dispatch(MainAction.Error("Response null"))
-        } else if (response.isSuccessful) {
+        if (response.isSuccessful) {
             store.dispatch(MainAction.SuccessMovies(response.body()!!))
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))

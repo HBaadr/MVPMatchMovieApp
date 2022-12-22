@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.hourimeche.mvpmatchmovieapp.R
 import com.hourimeche.mvpmatchmovieapp.databinding.FragmentMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
