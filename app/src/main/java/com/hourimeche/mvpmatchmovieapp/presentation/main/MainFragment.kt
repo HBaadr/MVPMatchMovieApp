@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,9 +47,8 @@ class MainFragment : Fragment() {
                 if (viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
             binding.recyclerView.visibility =
                 if (viewState.searchResponse != null) View.VISIBLE else View.INVISIBLE
-            binding.search.visibility =
-                if (viewState.searchResponse == null) View.VISIBLE else View.INVISIBLE
-            viewState.searchResponse?.let { movieAdapter.setData(it.Search) }
+            viewState.searchResponse.let { it?.Search?.let { it1 -> movieAdapter.setData(it1) } }
+            viewState.errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
         }
 
     }
@@ -57,24 +57,32 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_main, container, false)
-        binding.search.setOnClickListener {
-            viewModel.searchMovies("Titanic")
-        }
+        initiateView()
+        return binding.root
+    }
+
+    private fun initiateView() {
         movieAdapter = MovieAdapter(requireContext())
         movieAdapter.setListener(object : MovieAdapter.MovieListener {
             override fun addMovieToFav(movie: MovieResponse) {
-                Toast.makeText(requireContext(), movie.Title + " Added", Toast.LENGTH_SHORT).show()
+                viewModel.addMovieToCache(movie)
             }
 
             override fun removeMovieFromFav(movie: MovieResponse) {
-                Toast.makeText(requireContext(), movie.Title + " Removed", Toast.LENGTH_SHORT)
-                    .show()
+                viewModel.removeMovieFromCache(movie)
             }
 
         })
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = movieAdapter
-        return binding.root
+
+        binding.textToSearch.doOnTextChanged { text, _, _, _ ->
+            if (text == null || text.isEmpty())
+                viewModel.getMoviesFromCache()
+            else
+                viewModel.searchMovies(text.toString())
+        }
+
     }
 
 }

@@ -1,6 +1,5 @@
 package com.hourimeche.mvpmatchmovieapp.business.domain.middleware
 
-import android.util.Log
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Middleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
@@ -37,9 +36,9 @@ class NetworkingMiddleware(private val moviesService: MoviesService) :
             movieId,
             Constants.API_KEY
         )
-        Log.d("LoggingMiddleware", response.toString())
+
         if (response.isSuccessful) {
-            store.dispatch(MainAction.Success(response.body()!!))
+            store.dispatch(MainAction.SuccessGetMovie(response.body()!!))
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))
         }
@@ -55,9 +54,9 @@ class NetworkingMiddleware(private val moviesService: MoviesService) :
             query,
             Constants.API_KEY
         )
-        Log.d("LoggingMiddleware", response.toString())
+
         if (response.isSuccessful) {
-            store.dispatch(MainAction.SuccessMovies(response.body()!!))
+            store.dispatch(MainAction.SuccessSearch(response.body()!!))
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))
         }

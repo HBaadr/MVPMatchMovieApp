@@ -13,73 +13,73 @@ data class MovieEntity(
     val imdbID: String,
 
     @ColumnInfo(name = "Actors")
-    val Actors: String,
+    val Actors: String?,
 
     @ColumnInfo(name = "Awards")
-    val Awards: String,
+    val Awards: String?,
 
     @ColumnInfo(name = "BoxOffice")
-    val BoxOffice: String,
+    val BoxOffice: String?,
 
     @ColumnInfo(name = "Country")
-    val Country: String,
+    val Country: String?,
 
     @ColumnInfo(name = "DVD")
-    val DVD: String,
+    val DVD: String?,
 
     @ColumnInfo(name = "Director")
-    val Director: String,
+    val Director: String?,
 
     @ColumnInfo(name = "Genre")
     val Genre: String?,
 
     @ColumnInfo(name = "Language")
-    val Language: String,
+    val Language: String?,
 
     @ColumnInfo(name = "Metascore")
-    val Metascore: String,
+    val Metascore: String?,
 
     @ColumnInfo(name = "Plot")
-    val Plot: String,
+    val Plot: String?,
 
     @ColumnInfo(name = "Poster")
-    val Poster: String,
+    val Poster: String?,
 
     @ColumnInfo(name = "Production")
-    val Production: String,
+    val Production: String?,
 
     @ColumnInfo(name = "Rated")
-    val Rated: String,
+    val Rated: String?,
 
     @ColumnInfo(name = "Released")
-    val Released: String,
+    val Released: String?,
 
     @ColumnInfo(name = "Response")
-    val Response: String,
+    val Response: String?,
 
     @ColumnInfo(name = "Runtime")
-    val Runtime: String,
+    val Runtime: String?,
 
     @ColumnInfo(name = "Title")
-    val Title: String,
+    val Title: String?,
 
     @ColumnInfo(name = "Type")
-    val Type: String,
+    val Type: String?,
 
     @ColumnInfo(name = "Website")
-    val Website: String,
+    val Website: String?,
 
     @ColumnInfo(name = "Writer")
-    val Writer: String,
+    val Writer: String?,
 
     @ColumnInfo(name = "Year")
-    val Year: String,
+    val Year: String?,
 
     @ColumnInfo(name = "imdbRating")
     val imdbRating: String?,
 
     @ColumnInfo(name = "imdbVotes")
-    val imdbVotes: String
+    val imdbVotes: String?
 )
 
 fun MovieEntity.toMovieResponse(): MovieResponse {

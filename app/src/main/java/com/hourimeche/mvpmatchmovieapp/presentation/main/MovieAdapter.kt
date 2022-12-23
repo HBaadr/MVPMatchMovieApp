@@ -30,7 +30,7 @@ class MovieAdapter(private val context: Context) :
         val movie = data[position]
         with(holder) {
             "${movie.Title} (${movie.Year})".also { binding.movieTitle.text = it }
-            movie.Type.also { binding.movieType.text = it.firstCap() }
+            movie.Type.also { binding.movieType.text = it?.firstCap() }
             ("Genre: ${movie.Genre}\n" +
                     "Actors: ${movie.Actors}\n" +
                     "Plot: ${movie.Plot}").also { binding.movieDescription.text = it }

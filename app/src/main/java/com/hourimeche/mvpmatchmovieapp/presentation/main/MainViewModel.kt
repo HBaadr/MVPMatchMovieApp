@@ -3,6 +3,7 @@ package com.hourimeche.mvpmatchmovieapp.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.LoggingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.NetworkingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
@@ -40,5 +41,21 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             store.dispatch(action)
         }
+    }
+
+    fun getMoviesFromCache() {
+        val action = MainAction.GetMoviesFromCache
+
+        viewModelScope.launch {
+            store.dispatch(action)
+        }
+    }
+
+    fun addMovieToCache(movie: MovieResponse) {
+
+    }
+
+    fun removeMovieFromCache(movie: MovieResponse) {
+
     }
 }

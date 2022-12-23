@@ -1,5 +1,6 @@
 package com.hourimeche.mvpmatchmovieapp.presentation.main
 
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Reducer
 
 /**
@@ -21,13 +22,13 @@ class MainReducer : Reducer<MainState, MainAction> {
                     errorMessage = action.errorMessage,
                 )
             }
-            is MainAction.Success -> {
+            is MainAction.SuccessGetMovie -> {
                 currentState.copy(
                     showProgressBar = false,
                     moviesResponse = action.moviesResponse,
                 )
             }
-            is MainAction.SuccessMovies -> {
+            is MainAction.SuccessSearch -> {
                 currentState.copy(
                     showProgressBar = false,
                     searchResponse = action.searchResponse,
@@ -46,6 +47,21 @@ class MainReducer : Reducer<MainState, MainAction> {
             MainAction.Loading -> {
                 currentState.copy(
                     showProgressBar = true,
+                )
+            }
+            MainAction.GetMoviesFromCache -> {
+                currentState.copy(
+                    showProgressBar = true,
+                )
+            }
+            is MainAction.SuccessGetMovies -> {
+                currentState.copy(
+                    showProgressBar = false,
+                    searchResponse = SearchResponse(
+                        Search = action.movies,
+                        totalResults = "null",
+                        Response = "true"
+                    ),
                 )
             }
             else -> currentState
