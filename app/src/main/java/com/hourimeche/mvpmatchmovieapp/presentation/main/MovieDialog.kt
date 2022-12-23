@@ -49,18 +49,17 @@ class MovieDialog : DialogFragment() {
 
         "${movie.Title} (${movie.Year})".also { binding.movieTitle.text = it }
         movie.Type.let { binding.movieType.text = it?.firstCap() }
-        (" Genre: ${movie.Genre}\n" +
-                " Rated: ${movie.Rated}\n" +
-                " Released: ${movie.Released}\n" +
-                " Runtime: ${movie.Runtime}\n" +
-                " Director: ${movie.Director}\n" +
-                " Writer: ${movie.Writer}\n" +
-                " Actors: ${movie.Actors}\n" +
-                " Language: ${movie.Language}\n" +
-                " Country: ${movie.Country}\n" +
-                " Awards: ${movie.Awards}\n" +
-                " Type: ${movie.Type}\n" +
-                " Plot: ${movie.Plot}\n").let { binding.movieDescription.text = it }
+        ("- Genre: ${movie.Genre}\n" +
+                "- Rated: ${movie.Rated}\n" +
+                "- Released: ${movie.Released}\n" +
+                "- Runtime: ${movie.Runtime}\n" +
+                "- Director: ${movie.Director}\n" +
+                "- Writer: ${movie.Writer}\n" +
+                "- Actors: ${movie.Actors}\n" +
+                "- Language: ${movie.Language}\n" +
+                "- Country: ${movie.Country}\n" +
+                "- Awards: ${movie.Awards}\n" +
+                "- Plot: ${movie.Plot}\n").let { binding.movieDescription.text = it }
 
         try {
             binding.movieRating.rating = movie.imdbRating?.toFloat()?.div(2) ?: 0F
