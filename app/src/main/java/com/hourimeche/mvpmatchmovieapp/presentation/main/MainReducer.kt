@@ -22,32 +22,14 @@ class MainReducer : Reducer<MainState, MainAction> {
                     errorMessage = action.errorMessage,
                 )
             }
-            is MainAction.SuccessGetMovie -> {
-                currentState.copy(
-                    showProgressBar = false,
-                    moviesResponse = action.moviesResponse,
-                )
-            }
-            is MainAction.SuccessSearch -> {
-                currentState.copy(
-                    showProgressBar = false,
-                    isEmptyList = action.searchResponse.Search?.isEmpty() ?: true,
-                    searchResponse = action.searchResponse,
-                )
-            }
-            is MainAction.GetMovie -> {
-                currentState.copy(
-                    id = action.movieId,
-                )
-            }
             is MainAction.AddMovieToCache -> {
                 currentState.copy(
                     id = action.moviesResponse.imdbID,
                 )
             }
-            is MainAction.SearchMovies -> {
+            is MainAction.RemoveMovieFromCache -> {
                 currentState.copy(
-                    query = action.query,
+                    id = action.moviesResponse.imdbID,
                 )
             }
             MainAction.Loading -> {
@@ -60,17 +42,40 @@ class MainReducer : Reducer<MainState, MainAction> {
                     showProgressBar = false,
                 )
             }
-            MainAction.GetMoviesFromCache -> {
-                currentState.copy(
-                )
-            }
             MainAction.EmptyList -> {
                 currentState.copy(
                     showProgressBar = false,
                     isEmptyList = true
                 )
             }
-            is MainAction.SuccessGetMovies -> {
+            is MainAction.SearchMovies -> {
+                currentState.copy(
+                    query = action.query,
+                )
+            }
+            is MainAction.SuccessSearchMovies -> {
+                currentState.copy(
+                    showProgressBar = false,
+                    isEmptyList = action.searchResponse.Search?.isEmpty() ?: true,
+                    searchResponse = action.searchResponse,
+                )
+            }
+            is MainAction.GetMovie -> {
+                currentState.copy(
+                    id = action.movieId,
+                )
+            }
+            is MainAction.SuccessGetMovie -> {
+                currentState.copy(
+                    showProgressBar = false,
+                    moviesResponse = action.moviesResponse,
+                )
+            }
+            MainAction.GetMoviesFromCache -> {
+                currentState.copy(
+                )
+            }
+            is MainAction.SuccessGetMoviesFromCache -> {
                 currentState.copy(
                     showProgressBar = false,
                     isEmptyList = action.movies.isEmpty(),

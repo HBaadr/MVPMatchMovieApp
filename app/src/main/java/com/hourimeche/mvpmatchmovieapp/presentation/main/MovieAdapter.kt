@@ -12,8 +12,7 @@ import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.Mov
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.firstCap
 import com.hourimeche.mvpmatchmovieapp.databinding.CardMovieBinding
 
-class MovieAdapter(private val context: Context) :
-    RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     private var data = ArrayList<MovieResponse>()
     private lateinit var listener: MovieListener
@@ -33,8 +32,7 @@ class MovieAdapter(private val context: Context) :
             movie.Type.let { binding.movieType.text = it?.firstCap() }
             movie.Plot.let { binding.movieDescription.text = it }
             movie.imdbRating.let {
-                binding.movieRating.rating =
-                    movie.imdbRating?.toFloat()?.div(2) ?: 0F
+                binding.movieRating.rating = movie.imdbRating?.toFloat()?.div(2) ?: 0F
             }
             binding.movieRating.visibility =
                 if (movie.imdbRating != null) View.VISIBLE else View.INVISIBLE
