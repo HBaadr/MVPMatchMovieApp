@@ -45,7 +45,7 @@ class MainFragment : Fragment() {
     private fun processViewState(viewState: MainState) {
 
         lifecycleScope.launch {
-            if (viewState.moviesResponse != null && binding.progressCircular.visibility != View.VISIBLE) {
+            if (viewState.moviesResponse != null) {
                 val dialog = MovieDialog.newInstance(viewState.moviesResponse)
                 dialog?.show(childFragmentManager, MovieDialog.TAG)
             }
