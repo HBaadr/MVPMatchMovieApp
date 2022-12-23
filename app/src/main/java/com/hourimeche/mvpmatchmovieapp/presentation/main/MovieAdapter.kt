@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hourimeche.mvpmatchmovieapp.R
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.domain.util.firstCap
 import com.hourimeche.mvpmatchmovieapp.databinding.CardMovieBinding
 
 class MovieAdapter(private val context: Context) :
@@ -29,15 +30,16 @@ class MovieAdapter(private val context: Context) :
         val movie = data[position]
         with(holder) {
             "${movie.Title} (${movie.Year})".also { binding.movieTitle.text = it }
-            ("Released: ${movie.Released}\n" +
-                    "Genre: ${movie.Genre}\n" +
+            movie.Type.also { binding.movieType.text = it.firstCap() }
+            ("Genre: ${movie.Genre}\n" +
                     "Actors: ${movie.Actors}\n" +
-                    "Language: ${movie.Language}\n" +
-                    "Country: ${movie.Country}\n" +
-                    "Awards: ${movie.Awards}\n" +
                     "Plot: ${movie.Plot}").also { binding.movieDescription.text = it }
-            "${movie.Type} (${movie.Year})".also { binding.movieType.text = it }
-            binding.movieRating.rating = movie.imdbRating.toFloat() / 2
+            if (movie.imdbRating != null)
+                binding.movieRating.rating = movie.imdbRating.toFloat() / 2
+            binding.movieRating.visibility =
+                if (movie.imdbRating != null) View.VISIBLE else View.INVISIBLE
+            binding.movieDescription.visibility =
+                if (movie.Genre != null) View.VISIBLE else View.INVISIBLE
             Glide.with(context).load(movie.Poster).into(binding.moviePoster)
             binding.movieAddToFavorite.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) listener.addMovieToFav(movie) else listener.removeMovieFromFav(movie)
@@ -53,8 +55,9 @@ class MovieAdapter(private val context: Context) :
         }
     }
 
-    fun setData(data: ArrayList<MovieResponse>) {
-        this.data = data
+    fun setData(data: List<MovieResponse>) {
+        this.data.clear()
+        this.data.addAll(data)
         this.listener = listener
         notifyDataSetChanged()
     }

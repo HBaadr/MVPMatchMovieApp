@@ -8,7 +8,7 @@ data class MovieResponse(
     val Country: String,
     val DVD: String,
     val Director: String,
-    val Genre: String,
+    val Genre: String?,
     val Language: String,
     val Metascore: String,
     val Plot: String,
@@ -24,6 +24,6 @@ data class MovieResponse(
     val Writer: String,
     val Year: String,
     val imdbID: String,
-    val imdbRating: String,
+    val imdbRating: String?,
     val imdbVotes: String
 )

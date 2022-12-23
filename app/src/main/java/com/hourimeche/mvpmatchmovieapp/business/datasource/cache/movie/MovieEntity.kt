@@ -31,7 +31,7 @@ data class MovieEntity(
     val Director: String,
 
     @ColumnInfo(name = "Genre")
-    val Genre: String,
+    val Genre: String?,
 
     @ColumnInfo(name = "Language")
     val Language: String,
@@ -76,7 +76,7 @@ data class MovieEntity(
     val Year: String,
 
     @ColumnInfo(name = "imdbRating")
-    val imdbRating: String,
+    val imdbRating: String?,
 
     @ColumnInfo(name = "imdbVotes")
     val imdbVotes: String
