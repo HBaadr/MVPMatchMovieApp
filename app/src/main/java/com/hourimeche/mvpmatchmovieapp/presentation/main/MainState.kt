@@ -1,7 +1,6 @@
 package com.hourimeche.mvpmatchmovieapp.presentation.main
 
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.State
 
 /**
@@ -13,6 +12,7 @@ data class MainState(
     val showProgressBar: Boolean = false,
     val errorMessage: String? = null,
     val moviesResponse: MovieResponse? = null,
-    val searchResponse: SearchResponse? = null,
+    val searchResponse: List<MovieResponse>? = null,
+    val cacheResponse: List<MovieResponse>? = null,
     val isEmptyList: Boolean = true,
 ) : State

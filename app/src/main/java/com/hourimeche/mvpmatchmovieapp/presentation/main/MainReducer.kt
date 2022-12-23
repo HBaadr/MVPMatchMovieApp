@@ -1,6 +1,5 @@
 package com.hourimeche.mvpmatchmovieapp.presentation.main
 
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Reducer
 
 /**
@@ -57,7 +56,8 @@ class MainReducer : Reducer<MainState, MainAction> {
                 currentState.copy(
                     showProgressBar = false,
                     isEmptyList = action.searchResponse.Search?.isEmpty() ?: true,
-                    searchResponse = action.searchResponse,
+                    cacheResponse = null,
+                    searchResponse = action.searchResponse.Search,
                 )
             }
             is MainAction.GetMovie -> {
@@ -79,11 +79,8 @@ class MainReducer : Reducer<MainState, MainAction> {
                 currentState.copy(
                     showProgressBar = false,
                     isEmptyList = action.movies.isEmpty(),
-                    searchResponse = SearchResponse(
-                        Search = action.movies,
-                        totalResults = null,
-                        Response = true
-                    ),
+                    searchResponse = null,
+                    cacheResponse = action.movies,
                 )
             }
             else -> currentState
