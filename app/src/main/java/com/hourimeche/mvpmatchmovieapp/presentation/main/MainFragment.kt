@@ -92,6 +92,11 @@ class MainFragment : Fragment() {
                 viewModel.removeMovieFromCache(movie)
             }
 
+            override fun openMovieDialog(movie: MovieResponse) {
+                val dialog = MovieDialog.newInstance(movie)
+                dialog?.show(childFragmentManager, MovieDialog.TAG)
+            }
+
             override suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean {
                 return viewModel.isMovieInFavouriteList(movie)
             }

@@ -26,4 +26,4 @@ data class MovieResponse(
     val imdbID: String,
     val imdbRating: String?,
     val imdbVotes: String?
-)
+) : java.io.Serializable

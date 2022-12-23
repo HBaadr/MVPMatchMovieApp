@@ -11,7 +11,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/gray"
         tools:context=".presentation.main.MainFragment">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -19,8 +19,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:boxStrokeColor="@color/white"
             android:layout_margin="10dp"
             android:hint="Search Movie/TV Show"
+            app:hintTextColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

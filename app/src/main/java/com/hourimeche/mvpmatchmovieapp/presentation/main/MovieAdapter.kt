@@ -58,6 +58,10 @@ class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAda
                     )
                 }
             }
+
+            binding.root.setOnClickListener {
+                listener.openMovieDialog(movie)
+            }
         }
     }
 
@@ -83,6 +87,7 @@ class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAda
     interface MovieListener {
         fun addMovieToFav(movie: MovieResponse)
         fun removeMovieFromFav(movie: MovieResponse)
+        fun openMovieDialog(movie: MovieResponse)
         suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean
     }
 }

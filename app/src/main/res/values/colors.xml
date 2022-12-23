@@ -10,4 +10,5 @@
     <color name="movie_card_background_solid">#E69A8DFF</color>
     <color name="movie_card_background_stroke">#5F4B8BFF</color>
     <color name="movie_card_type_background">#C5C2C2</color>
+    <color name="gray">#929292</color>
 </resources>
