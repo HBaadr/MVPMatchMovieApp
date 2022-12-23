@@ -63,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_hide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/movie_poster"
             app:layout_constraintTop_toTopOf="parent">
@@ -75,6 +75,16 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </ScrollView>
+
+        <Button
+            android:id="@+id/btn_hide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Don\'t show again"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/movie_poster" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

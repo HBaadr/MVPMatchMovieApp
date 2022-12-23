@@ -19,7 +19,7 @@ class MovieDialog : DialogFragment() {
     companion object {
         const val TAG = "MovieDialog"
 
-        fun newInstance(property: MovieResponse): MovieDialog? {
+        fun newInstance(property: MovieResponse): MovieDialog {
             val f = MovieDialog()
             val args = Bundle()
             args.putSerializable(TAG, property)
@@ -71,7 +71,9 @@ class MovieDialog : DialogFragment() {
             if (movie.imdbRating != null) View.VISIBLE else View.INVISIBLE
         Glide.with(requireActivity()).load(movie.Poster).into(binding.moviePoster)
 
-
+        binding.btnHide.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun onDestroyView() {
