@@ -79,7 +79,13 @@ data class MovieEntity(
     val imdbRating: String?,
 
     @ColumnInfo(name = "imdbVotes")
-    val imdbVotes: String?
+    val imdbVotes: String?,
+
+    @ColumnInfo(name = "isUnwanted")
+    val isUnwanted: Boolean = false,
+
+    @ColumnInfo(name = "isFavorite")
+    val isFavorite: Boolean = false
 )
 
 fun MovieEntity.toMovieResponse(): MovieResponse {
@@ -112,7 +118,7 @@ fun MovieEntity.toMovieResponse(): MovieResponse {
     )
 }
 
-fun MovieResponse.toEntity(): MovieEntity {
+fun MovieResponse.toEntity(isFavorite: Boolean, isUnwanted: Boolean): MovieEntity {
     return MovieEntity(
         Actors = Actors,
         Awards = Awards,
@@ -137,6 +143,8 @@ fun MovieResponse.toEntity(): MovieEntity {
         Year = Year,
         imdbID = imdbID,
         imdbRating = imdbRating,
-        imdbVotes = imdbVotes
+        imdbVotes = imdbVotes,
+        isFavorite = isFavorite,
+        isUnwanted = isUnwanted
     )
 }

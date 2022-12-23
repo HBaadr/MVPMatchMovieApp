@@ -24,10 +24,10 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
                 getMoviesFromCache(store)
             }
             is MainAction.AddMovieToCache -> {
-                addMoviesToCache(store, action.moviesResponse.imdbID)
+                addMoviesToFavorite(store, action.moviesResponse.imdbID)
             }
             is MainAction.RemoveMovieFromCache -> {
-                removeMoviesFromCache(store, action.moviesResponse.imdbID)
+                removeMoviesFromFavorite(store, action.moviesResponse.imdbID)
             }
             else -> {}
         }
@@ -36,7 +36,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
     private suspend fun getMoviesFromCache(store: Store<MainState, MainAction>) {
         store.dispatch(MainAction.Loading)
 
-        val response = movieDao.getAllMovies()
+        val response = movieDao.getAllFavoritesMovies()
         val movies = ArrayList<MovieResponse>()
         for (movie in response) {
             movies.add(movie?.toMovieResponse()!!)
@@ -44,7 +44,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
         store.dispatch(MainAction.SuccessGetMoviesFromCache(movies))
     }
 
-    private suspend fun addMoviesToCache(store: Store<MainState, MainAction>, movieId: String) {
+    private suspend fun addMoviesToFavorite(store: Store<MainState, MainAction>, movieId: String) {
         store.dispatch(MainAction.Loading)
 
         val response = moviesService.getMovieById(
@@ -53,7 +53,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
         )
 
         if (response.isSuccessful) {
-            movieDao.insertAndReplace(response.body()?.toEntity()!!)
+            movieDao.insertFavorite(response.body()?.toEntity(true, false)!!)
             store.dispatch(MainAction.FinishLoading)
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))
@@ -61,7 +61,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
 
     }
 
-    private suspend fun removeMoviesFromCache(
+    private suspend fun removeMoviesFromFavorite(
         store: Store<MainState, MainAction>,
         movieId: String
     ) {
@@ -73,7 +73,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
         )
 
         if (response.isSuccessful) {
-            movieDao.delete(response.body()?.toEntity()!!)
+            movieDao.deleteFavorite(response.body()?.toEntity(true, false)!!)
             store.dispatch(MainAction.FinishLoading)
             store.dispatch(MainAction.MovieRemoved)
         } else {
