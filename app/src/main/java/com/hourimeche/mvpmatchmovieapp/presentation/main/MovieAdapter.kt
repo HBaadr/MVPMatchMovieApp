@@ -53,10 +53,14 @@ class MovieAdapter(private val context: Context) :
         }
     }
 
-    fun setData(data: ArrayList<MovieResponse>, listener: MovieListener) {
+    fun setData(data: ArrayList<MovieResponse>) {
         this.data = data
         this.listener = listener
         notifyDataSetChanged()
+    }
+
+    fun setListener(listener: MovieListener) {
+        this.listener = listener
     }
 
     interface MovieListener {

@@ -24,11 +24,12 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-
+        movieAdapter = MovieAdapter(requireContext())
         // Whenever the view is resumed, subscribe to our viewmodel's view state StateFlow
         lifecycleScope.launchWhenResumed {
             viewModel.viewState.collect { viewState ->
@@ -47,6 +48,7 @@ class MainFragment : Fragment() {
                 if (viewState.searchResponse != null) View.VISIBLE else View.INVISIBLE
             binding.search.visibility =
                 if (viewState.searchResponse == null) View.VISIBLE else View.INVISIBLE
+            //movieAdapter.setData(viewState.searchResponse)
         }
 
     }
