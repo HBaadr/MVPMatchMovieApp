@@ -8,19 +8,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/movie_card_background">
 
         <ImageView
             android:id="@+id/movie_poster"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".4" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/movie_title"

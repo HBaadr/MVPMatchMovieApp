@@ -49,7 +49,8 @@ class MainFragment : Fragment() {
                 if (viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
             binding.recyclerView.visibility =
                 if (!viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
-            viewState.searchResponse.let { it?.Search?.let { it1 -> movieAdapter.setData(it1) } }
+            if (binding.progressCircular.visibility != View.VISIBLE)
+                viewState.searchResponse.let { it?.Search?.let { it1 -> movieAdapter.setData(it1) } }
             viewState.errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
         }
 
