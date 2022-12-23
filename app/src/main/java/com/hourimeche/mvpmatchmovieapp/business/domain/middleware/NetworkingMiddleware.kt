@@ -1,6 +1,8 @@
 package com.hourimeche.mvpmatchmovieapp.business.domain.middleware
 
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Middleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
@@ -56,9 +58,27 @@ class NetworkingMiddleware(private val moviesService: MoviesService) :
         )
 
         if (response.isSuccessful) {
-            if (response.body()!!.Response)
-                store.dispatch(MainAction.SuccessSearchMovies(response.body()!!))
-            else
+            if (response.body()!!.Response) {
+                val allMovies = ArrayList<MovieResponse>()
+                response.body()!!.Search?.let { allMovies.addAll(it) }
+                val moviesUnwanted = ArrayList<MovieResponse>()
+                store.state.value.unwantedMovies?.let { moviesUnwanted.addAll(it) }
+                for (movie in ArrayList<MovieResponse>(allMovies)) {
+                    for (unwanted in moviesUnwanted) {
+                        if (movie.imdbID == unwanted.imdbID)
+                            allMovies.remove(movie)
+                    }
+                }
+                store.dispatch(
+                    MainAction.SuccessSearchMovies(
+                        SearchResponse(
+                            true,
+                            allMovies,
+                            null
+                        )
+                    )
+                )
+            } else
                 store.dispatch(MainAction.EmptyList)
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))

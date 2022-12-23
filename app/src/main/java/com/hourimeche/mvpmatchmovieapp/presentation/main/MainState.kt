@@ -17,4 +17,5 @@ data class MainState(
     val unwantedMovies: List<MovieResponse>? = null,
     val isEmptyList: Boolean = true,
     val movieRemoved: Boolean = false,
+    val unwantedMovieAdded: Boolean = false,
 ) : State

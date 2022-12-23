@@ -70,6 +70,9 @@ class MainFragment : Fragment() {
             if (viewState.movieRemoved) {
                 viewModel.getMoviesFromCache()
             }
+            if (viewState.unwantedMovieAdded) {
+                viewModel.getUnwantedMoviesFromCache()
+            }
 
             (activity as AppCompatActivity).supportActionBar?.title =
                 when (binding.textToSearch.text.toString().length) {
@@ -137,6 +140,7 @@ class MainFragment : Fragment() {
 
         })
         viewModel.getMoviesFromCache()
+        viewModel.getUnwantedMoviesFromCache()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -148,7 +152,6 @@ class MainFragment : Fragment() {
         ) { _, result ->
             val movie = result.getSerializable(MOVIE) as MovieResponse
             viewModel.addMovieToUnwanted(movie)
-            viewModel.getUnwantedMoviesFromCache()
         }
     }
 }

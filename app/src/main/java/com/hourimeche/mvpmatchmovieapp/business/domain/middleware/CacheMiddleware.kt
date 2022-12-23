@@ -89,6 +89,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
         if (response.isSuccessful) {
             movieDao.insertUnwanted(response.body()?.toEntity(false, true)!!)
             store.dispatch(MainAction.FinishLoading)
+            store.dispatch(MainAction.SuccessAddMovieToUnwanted)
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))
         }

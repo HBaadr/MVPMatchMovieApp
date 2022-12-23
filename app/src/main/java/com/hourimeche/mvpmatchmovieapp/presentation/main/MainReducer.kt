@@ -26,6 +26,12 @@ class MainReducer : Reducer<MainState, MainAction> {
             is MainAction.AddMovieToUnwanted -> {
                 currentState.copy(
                     id = action.moviesResponse.imdbID,
+                    unwantedMovieAdded = false
+                )
+            }
+            MainAction.SuccessAddMovieToUnwanted -> {
+                currentState.copy(
+                    unwantedMovieAdded = true
                 )
             }
 

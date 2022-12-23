@@ -33,6 +33,7 @@ sealed class MainAction : Action {
 
     // Add movie to unwonted cache
     class AddMovieToUnwanted(val moviesResponse: MovieResponse) : MainAction()
+    object SuccessAddMovieToUnwanted : MainAction()
 
     // Get unwanted movie from CACHE
     data class SuccessGetUnwantedMoviesFromCache(val movies: List<MovieResponse>) : MainAction()
