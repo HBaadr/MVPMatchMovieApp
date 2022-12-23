@@ -15,35 +15,20 @@ class MainReducer : Reducer<MainState, MainAction> {
      */
     override fun reduce(currentState: MainState, action: MainAction): MainState {
         return when (action) {
-            is MainAction.Error -> {
-                currentState.copy(
-                    movieRemoved = false,
-                    showProgressBar = false,
-                    errorMessage = action.errorMessage,
-                )
-            }
+            // Add movie to favorite cache
             is MainAction.AddMovieToCache -> {
                 currentState.copy(
                     movieRemoved = false,
                     id = action.moviesResponse.imdbID,
                 )
             }
+
+
+            // Remove movie from favorite cache
             is MainAction.RemoveMovieFromCache -> {
                 currentState.copy(
                     movieRemoved = false,
                     id = action.moviesResponse.imdbID,
-                )
-            }
-            MainAction.Loading -> {
-                currentState.copy(
-                    movieRemoved = false,
-                    showProgressBar = true,
-                )
-            }
-            MainAction.FinishLoading -> {
-                currentState.copy(
-                    showProgressBar = false,
-                    movieRemoved = false,
                 )
             }
             MainAction.MovieRemoved -> {
@@ -51,11 +36,17 @@ class MainReducer : Reducer<MainState, MainAction> {
                     movieRemoved = true,
                 )
             }
-            MainAction.EmptyList -> {
+
+            // Error
+            is MainAction.Error -> {
                 currentState.copy(
-                    movieRemoved = false, showProgressBar = false, isEmptyList = true
+                    movieRemoved = false,
+                    showProgressBar = false,
+                    errorMessage = action.errorMessage,
                 )
             }
+
+            // Get Movie by SEARCH
             is MainAction.SearchMovies -> {
                 currentState.copy(
                     movieRemoved = false,
@@ -71,6 +62,8 @@ class MainReducer : Reducer<MainState, MainAction> {
                     searchResponse = action.searchResponse.Search,
                 )
             }
+
+            // Get movie by ID
             is MainAction.GetMovie -> {
                 currentState.copy(
                     id = action.movieId,
@@ -85,6 +78,8 @@ class MainReducer : Reducer<MainState, MainAction> {
                     movieRemoved = false,
                 )
             }
+
+            // Get favorite movie from CACHE
             MainAction.GetMoviesFromCache -> {
                 currentState.copy(
                     movieRemoved = false,
@@ -97,6 +92,27 @@ class MainReducer : Reducer<MainState, MainAction> {
                     isEmptyList = action.movies.isEmpty(),
                     searchResponse = null,
                     cacheResponse = action.movies,
+                )
+            }
+
+            // Loader
+            MainAction.Loading -> {
+                currentState.copy(
+                    movieRemoved = false,
+                    showProgressBar = true,
+                )
+            }
+            MainAction.FinishLoading -> {
+                currentState.copy(
+                    showProgressBar = false,
+                    movieRemoved = false,
+                )
+            }
+            MainAction.EmptyList -> {
+                currentState.copy(
+                    movieRemoved = false,
+                    showProgressBar = false,
+                    isEmptyList = true
                 )
             }
             else -> currentState
