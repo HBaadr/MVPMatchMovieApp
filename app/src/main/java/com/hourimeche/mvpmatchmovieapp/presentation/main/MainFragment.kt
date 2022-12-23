@@ -108,7 +108,7 @@ class MainFragment : Fragment() {
             if (binding.btnSearch.text.equals(getString(R.string.favorites)))
                 viewModel.getMoviesFromCache()
             else
-                viewModel.searchMovies(binding.btnSearch.text.toString())
+                viewModel.searchMovies(binding.textToSearch.text.toString())
         }
 
         binding.textToSearch.addTextChangedListener(object : TextWatcher {
