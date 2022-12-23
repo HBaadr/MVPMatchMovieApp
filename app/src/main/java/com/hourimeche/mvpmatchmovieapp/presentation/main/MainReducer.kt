@@ -68,6 +68,7 @@ class MainReducer : Reducer<MainState, MainAction> {
                     showProgressBar = false,
                     isEmptyList = action.searchResponse.Search?.isEmpty() ?: true,
                     searchResponse = action.searchResponse.Search,
+                    isFavouriteScreen = false,
                 )
             }
 
@@ -96,18 +97,21 @@ class MainReducer : Reducer<MainState, MainAction> {
                     showProgressBar = false,
                     isEmptyList = action.movies.isEmpty(),
                     cacheResponse = action.movies,
+                    isFavouriteScreen = true,
                 )
             }
 
             // Get unwanted movie from CACHE
             MainAction.GetUnwantedMoviesFromCache -> {
                 currentState.copy(
-                    // cacheResponse = null,
+                    // unwantedMovies = null,
+                    unwantedMoviesReceived = false,
                 )
             }
             is MainAction.SuccessGetUnwantedMoviesFromCache -> {
                 currentState.copy(
                     showProgressBar = false,
+                    unwantedMoviesReceived = true,
                     unwantedMovies = action.movies,
                 )
             }

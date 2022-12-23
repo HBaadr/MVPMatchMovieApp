@@ -18,4 +18,6 @@ data class MainState(
     val isEmptyList: Boolean = true,
     val movieRemoved: Boolean = false,
     val unwantedMovieAdded: Boolean = false,
+    val unwantedMoviesReceived: Boolean = false,
+    val isFavouriteScreen: Boolean = true,
 ) : State

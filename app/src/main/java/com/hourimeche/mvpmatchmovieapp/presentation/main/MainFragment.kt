@@ -67,12 +67,17 @@ class MainFragment : Fragment() {
             binding.recyclerView.visibility =
                 if (!viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
 
-            if (viewState.movieRemoved) {
+            if (viewState.movieRemoved)
                 viewModel.getMoviesFromCache()
-            }
-            if (viewState.unwantedMovieAdded) {
+
+            if (viewState.unwantedMovieAdded)
                 viewModel.getUnwantedMoviesFromCache()
-            }
+
+            if (viewState.unwantedMoviesReceived && viewState.query.isNotEmpty() && !viewState.isFavouriteScreen)
+                viewModel.searchMovies(viewState.query)
+
+            if (viewState.unwantedMoviesReceived && viewState.isFavouriteScreen)
+                viewModel.getMoviesFromCache()
 
             (activity as AppCompatActivity).supportActionBar?.title =
                 when (binding.textToSearch.text.toString().length) {
@@ -81,7 +86,6 @@ class MainFragment : Fragment() {
                     else -> getString(R.string.search_for) + binding.textToSearch.text
                 }
         }
-
     }
 
     override fun onCreateView(
