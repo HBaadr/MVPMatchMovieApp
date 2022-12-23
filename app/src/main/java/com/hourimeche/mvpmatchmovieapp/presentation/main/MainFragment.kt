@@ -49,21 +49,22 @@ class MainFragment : Fragment() {
                 val dialog = MovieDialog.newInstance(viewState.moviesResponse)
                 dialog?.show(childFragmentManager, MovieDialog.TAG)
             }
+
+            viewState.searchResponse?.let {
+                movieAdapter.setData(it)
+                binding.btnSearch.text = getString(R.string.favorites)
+            }
+            viewState.cacheResponse?.let { movieAdapter.setData(it) }
+            viewState.errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+
             binding.progressCircular.visibility =
                 if (viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
             binding.noMovieFound.visibility =
                 if (viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
             binding.recyclerView.visibility =
                 if (!viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
-            if (binding.progressCircular.visibility != View.VISIBLE) {
-                if (viewState.cacheResponse != null)
-                    movieAdapter.setData(viewState.cacheResponse)
-                if (viewState.searchResponse != null)
-                    movieAdapter.setData(viewState.searchResponse)
-                binding.btnSearch.text = getString(R.string.favorites)
-            }
-            viewState.errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
-            if (viewState.cacheResponse != null && viewState.movieRemoved) {
+
+            if (viewState.movieRemoved) {
                 viewModel.getMoviesFromCache()
             }
 
