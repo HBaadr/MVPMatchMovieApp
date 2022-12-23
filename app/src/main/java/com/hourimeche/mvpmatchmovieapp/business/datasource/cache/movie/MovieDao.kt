@@ -8,7 +8,7 @@ interface MovieDao {
     @Query("SELECT * FROM movie_properties WHERE imdbID = :movieId")
     suspend fun searchById(movieId: String): MovieEntity?
 
-    @Query("SELECT * FROM movie_properties WHERE isFavorite = 1")
+    @Query("SELECT * FROM movie_properties WHERE isFavorite = 1 ORDER BY Title ASC")
     suspend fun getAllFavoritesMovies(): List<MovieEntity?>
 
     @Delete
