@@ -19,6 +19,7 @@ import com.hourimeche.mvpmatchmovieapp.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
@@ -26,6 +27,8 @@ class MainFragment : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
+        const val MOVIE = "movie"
+        const val REQUEST_KEY = "requestKey"
     }
 
     private lateinit var viewModel: MainViewModel
@@ -47,7 +50,7 @@ class MainFragment : Fragment() {
         lifecycleScope.launch {
             if (viewState.moviesResponse != null) {
                 val dialog = MovieDialog.newInstance(viewState.moviesResponse)
-                dialog?.show(childFragmentManager, MovieDialog.TAG)
+                dialog.show(childFragmentManager, MovieDialog.TAG)
             }
 
             viewState.searchResponse?.let {
@@ -109,9 +112,10 @@ class MainFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = movieAdapter
         binding.btnSearch.setOnClickListener {
-            if (binding.btnSearch.text.equals(getString(R.string.favorites)))
+            if (binding.btnSearch.text.equals(getString(R.string.favorites))) {
                 viewModel.getMoviesFromCache()
-            else
+                binding.textToSearch.setText("")
+            } else
                 viewModel.searchMovies(binding.textToSearch.text.toString())
         }
 
@@ -135,4 +139,16 @@ class MainFragment : Fragment() {
         viewModel.getMoviesFromCache()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, result ->
+            val movie = result.getSerializable(MOVIE) as MovieResponse
+            viewModel.addMovieToUnwanted(movie)
+            viewModel.getUnwantedMoviesFromCache()
+        }
+    }
 }

@@ -31,6 +31,13 @@ sealed class MainAction : Action {
     // Error
     data class Error(val errorMessage: String) : MainAction()
 
+    // Add movie to unwonted cache
+    class AddMovieToUnwanted(val moviesResponse: MovieResponse) : MainAction()
+
+    // Get unwanted movie from CACHE
+    data class SuccessGetUnwantedMoviesFromCache(val movies: List<MovieResponse>) : MainAction()
+    object GetUnwantedMoviesFromCache : MainAction()
+
     // Loader
     object EmptyList : MainAction()
     object Loading : MainAction()

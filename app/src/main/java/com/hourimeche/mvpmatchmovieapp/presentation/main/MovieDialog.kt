@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
@@ -72,6 +73,10 @@ class MovieDialog : DialogFragment() {
         Glide.with(requireActivity()).load(movie.Poster).into(binding.moviePoster)
 
         binding.btnHide.setOnClickListener {
+            requireActivity().supportFragmentManager.setFragmentResult(
+                MainFragment.REQUEST_KEY,
+                bundleOf(MainFragment.MOVIE to movie)
+            )
             dismiss()
         }
     }

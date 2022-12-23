@@ -22,6 +22,12 @@ class MainReducer : Reducer<MainState, MainAction> {
                 )
             }
 
+            // Add movie to unwanted cache
+            is MainAction.AddMovieToUnwanted -> {
+                currentState.copy(
+                    id = action.moviesResponse.imdbID,
+                )
+            }
 
             // Remove movie from favorite cache
             is MainAction.RemoveMovieFromCache -> {
@@ -84,6 +90,19 @@ class MainReducer : Reducer<MainState, MainAction> {
                     showProgressBar = false,
                     isEmptyList = action.movies.isEmpty(),
                     cacheResponse = action.movies,
+                )
+            }
+
+            // Get unwanted movie from CACHE
+            MainAction.GetUnwantedMoviesFromCache -> {
+                currentState.copy(
+                    // cacheResponse = null,
+                )
+            }
+            is MainAction.SuccessGetUnwantedMoviesFromCache -> {
+                currentState.copy(
+                    showProgressBar = false,
+                    unwantedMovies = action.movies,
                 )
             }
 

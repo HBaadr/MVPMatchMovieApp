@@ -21,7 +21,10 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
     ) {
         when (action) {
             is MainAction.GetMoviesFromCache -> {
-                getMoviesFromCache(store)
+                getFavoritesMoviesFromCache(store)
+            }
+            is MainAction.GetUnwantedMoviesFromCache -> {
+                getUnwantedMoviesFromCache(store)
             }
             is MainAction.AddMovieToCache -> {
                 addMoviesToFavorite(store, action.moviesResponse.imdbID)
@@ -29,11 +32,14 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
             is MainAction.RemoveMovieFromCache -> {
                 removeMoviesFromFavorite(store, action.moviesResponse.imdbID)
             }
+            is MainAction.AddMovieToUnwanted -> {
+                addMoviesToUnwanted(store, action.moviesResponse.imdbID)
+            }
             else -> {}
         }
     }
 
-    private suspend fun getMoviesFromCache(store: Store<MainState, MainAction>) {
+    private suspend fun getFavoritesMoviesFromCache(store: Store<MainState, MainAction>) {
         store.dispatch(MainAction.Loading)
 
         val response = movieDao.getAllFavoritesMovies()
@@ -42,6 +48,17 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
             movies.add(movie?.toMovieResponse()!!)
         }
         store.dispatch(MainAction.SuccessGetMoviesFromCache(movies))
+    }
+
+    private suspend fun getUnwantedMoviesFromCache(store: Store<MainState, MainAction>) {
+        store.dispatch(MainAction.Loading)
+
+        val response = movieDao.getAllUnwantedMovies()
+        val movies = ArrayList<MovieResponse>()
+        for (movie in response) {
+            movies.add(movie?.toMovieResponse()!!)
+        }
+        store.dispatch(MainAction.SuccessGetUnwantedMoviesFromCache(movies))
     }
 
     private suspend fun addMoviesToFavorite(store: Store<MainState, MainAction>, movieId: String) {
@@ -54,6 +71,23 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
 
         if (response.isSuccessful) {
             movieDao.insertFavorite(response.body()?.toEntity(true, false)!!)
+            store.dispatch(MainAction.FinishLoading)
+        } else {
+            store.dispatch(MainAction.Error(response.errorBody().toString()))
+        }
+
+    }
+
+    private suspend fun addMoviesToUnwanted(store: Store<MainState, MainAction>, movieId: String) {
+        store.dispatch(MainAction.Loading)
+
+        val response = moviesService.getMovieById(
+            movieId,
+            Constants.API_KEY
+        )
+
+        if (response.isSuccessful) {
+            movieDao.insertUnwanted(response.body()?.toEntity(false, true)!!)
             store.dispatch(MainAction.FinishLoading)
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))

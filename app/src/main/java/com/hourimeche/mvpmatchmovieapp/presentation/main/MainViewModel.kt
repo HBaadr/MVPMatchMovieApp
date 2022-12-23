@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     moviesService: MoviesService,
-    movieDao: MovieDao
+    private val movieDao: MovieDao
 ) : ViewModel() {
     private val store = Store(
         initialState = MainState(),
@@ -29,7 +29,6 @@ class MainViewModel @Inject constructor(
         )
     )
 
-    private val movieDao = movieDao
     val viewState: StateFlow<MainState> = store.state
 
     fun getMovie(movieId: String) {
@@ -56,6 +55,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun getUnwantedMoviesFromCache() {
+        val action = MainAction.GetUnwantedMoviesFromCache
+
+        viewModelScope.launch {
+            store.dispatch(action)
+        }
+    }
+
     fun addMovieToCache(movie: MovieResponse) {
         val action = MainAction.AddMovieToCache(movie)
 
@@ -74,5 +81,13 @@ class MainViewModel @Inject constructor(
 
     suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean {
         return movieDao.isMovieInFavouriteList(movie.imdbID)
+    }
+
+    fun addMovieToUnwanted(movie: MovieResponse) {
+        val action = MainAction.AddMovieToUnwanted(movie)
+
+        viewModelScope.launch {
+            store.dispatch(action)
+        }
     }
 }

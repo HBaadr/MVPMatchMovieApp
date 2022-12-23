@@ -14,6 +14,7 @@ data class MainState(
     val moviesResponse: MovieResponse? = null,
     val searchResponse: List<MovieResponse>? = null,
     val cacheResponse: List<MovieResponse>? = null,
+    val unwantedMovies: List<MovieResponse>? = null,
     val isEmptyList: Boolean = true,
     val movieRemoved: Boolean = false,
 ) : State
