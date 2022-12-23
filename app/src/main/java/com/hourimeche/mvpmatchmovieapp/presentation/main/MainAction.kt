@@ -18,6 +18,7 @@ sealed class MainAction : Action {
     data class SuccessSearch(val searchResponse: SearchResponse) : MainAction()
     data class SuccessGetMovies(val movies: List<MovieResponse>) : MainAction()
     data class Error(val errorMessage: String) : MainAction()
+    object EmptyList : MainAction()
     object Loading : MainAction()
     object FinishLoading : MainAction()
 }

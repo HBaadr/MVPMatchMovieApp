@@ -31,6 +31,7 @@ class MainReducer : Reducer<MainState, MainAction> {
             is MainAction.SuccessSearch -> {
                 currentState.copy(
                     showProgressBar = false,
+                    isEmptyList = action.searchResponse.Search?.isEmpty() ?: true,
                     searchResponse = action.searchResponse,
                 )
             }
@@ -63,13 +64,20 @@ class MainReducer : Reducer<MainState, MainAction> {
                 currentState.copy(
                 )
             }
+            MainAction.EmptyList -> {
+                currentState.copy(
+                    showProgressBar = false,
+                    isEmptyList = true
+                )
+            }
             is MainAction.SuccessGetMovies -> {
                 currentState.copy(
                     showProgressBar = false,
+                    isEmptyList = action.movies.isEmpty(),
                     searchResponse = SearchResponse(
                         Search = action.movies,
-                        totalResults = "null",
-                        Response = "true"
+                        totalResults = null,
+                        Response = true
                     ),
                 )
             }

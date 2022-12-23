@@ -45,8 +45,10 @@ class MainFragment : Fragment() {
         lifecycleScope.launch {
             binding.progressCircular.visibility =
                 if (viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
+            binding.noMovieFound.visibility =
+                if (viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
             binding.recyclerView.visibility =
-                if (viewState.searchResponse != null) View.VISIBLE else View.INVISIBLE
+                if (!viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
             viewState.searchResponse.let { it?.Search?.let { it1 -> movieAdapter.setData(it1) } }
             viewState.errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
         }

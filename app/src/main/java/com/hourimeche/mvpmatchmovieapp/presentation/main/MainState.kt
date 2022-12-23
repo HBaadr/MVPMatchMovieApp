@@ -14,4 +14,5 @@ data class MainState(
     val errorMessage: String? = null,
     val moviesResponse: MovieResponse? = null,
     val searchResponse: SearchResponse? = null,
+    val isEmptyList: Boolean = true,
 ) : State

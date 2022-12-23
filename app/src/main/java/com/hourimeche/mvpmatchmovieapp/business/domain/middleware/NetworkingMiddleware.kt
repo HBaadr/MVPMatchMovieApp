@@ -56,7 +56,10 @@ class NetworkingMiddleware(private val moviesService: MoviesService) :
         )
 
         if (response.isSuccessful) {
-            store.dispatch(MainAction.SuccessSearch(response.body()!!))
+            if (response.body()!!.Response)
+                store.dispatch(MainAction.SuccessSearch(response.body()!!))
+            else
+                store.dispatch(MainAction.EmptyList)
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))
         }
