@@ -17,38 +17,48 @@ class MainReducer : Reducer<MainState, MainAction> {
         return when (action) {
             is MainAction.Error -> {
                 currentState.copy(
+                    movieRemoved = false,
                     showProgressBar = false,
                     errorMessage = action.errorMessage,
                 )
             }
             is MainAction.AddMovieToCache -> {
                 currentState.copy(
+                    movieRemoved = false,
                     id = action.moviesResponse.imdbID,
                 )
             }
             is MainAction.RemoveMovieFromCache -> {
                 currentState.copy(
+                    movieRemoved = false,
                     id = action.moviesResponse.imdbID,
                 )
             }
             MainAction.Loading -> {
                 currentState.copy(
+                    movieRemoved = false,
                     showProgressBar = true,
                 )
             }
             MainAction.FinishLoading -> {
                 currentState.copy(
                     showProgressBar = false,
+                    movieRemoved = false,
+                )
+            }
+            MainAction.MovieRemoved -> {
+                currentState.copy(
+                    movieRemoved = true,
                 )
             }
             MainAction.EmptyList -> {
                 currentState.copy(
-                    showProgressBar = false,
-                    isEmptyList = true
+                    movieRemoved = false, showProgressBar = false, isEmptyList = true
                 )
             }
             is MainAction.SearchMovies -> {
                 currentState.copy(
+                    movieRemoved = false,
                     query = action.query,
                 )
             }
@@ -56,6 +66,7 @@ class MainReducer : Reducer<MainState, MainAction> {
                 currentState.copy(
                     showProgressBar = false,
                     isEmptyList = action.searchResponse.Search?.isEmpty() ?: true,
+                    movieRemoved = false,
                     cacheResponse = null,
                     searchResponse = action.searchResponse.Search,
                 )
@@ -63,21 +74,25 @@ class MainReducer : Reducer<MainState, MainAction> {
             is MainAction.GetMovie -> {
                 currentState.copy(
                     id = action.movieId,
+                    movieRemoved = false,
                 )
             }
             is MainAction.SuccessGetMovie -> {
                 currentState.copy(
                     showProgressBar = false,
                     moviesResponse = action.moviesResponse,
+                    movieRemoved = false,
                 )
             }
             MainAction.GetMoviesFromCache -> {
                 currentState.copy(
+                    movieRemoved = false,
                 )
             }
             is MainAction.SuccessGetMoviesFromCache -> {
                 currentState.copy(
                     showProgressBar = false,
+                    movieRemoved = false,
                     isEmptyList = action.movies.isEmpty(),
                     searchResponse = null,
                     cacheResponse = action.movies,

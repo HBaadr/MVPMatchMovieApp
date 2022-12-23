@@ -41,11 +41,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
         for (movie in response) {
             movies.add(movie?.toMovieResponse()!!)
         }
-        if (response.isNotEmpty()) {
-            store.dispatch(MainAction.SuccessGetMoviesFromCache(movies))
-        } else {
-            store.dispatch(MainAction.FinishLoading)
-        }
+        store.dispatch(MainAction.SuccessGetMoviesFromCache(movies))
     }
 
     private suspend fun addMoviesToCache(store: Store<MainState, MainAction>, movieId: String) {
@@ -79,6 +75,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
         if (response.isSuccessful) {
             movieDao.delete(response.body()?.toEntity()!!)
             store.dispatch(MainAction.FinishLoading)
+            store.dispatch(MainAction.MovieRemoved)
         } else {
             store.dispatch(MainAction.Error(response.errorBody().toString()))
         }

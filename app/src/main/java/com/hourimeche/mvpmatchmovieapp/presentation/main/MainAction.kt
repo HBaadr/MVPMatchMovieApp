@@ -21,4 +21,5 @@ sealed class MainAction : Action {
     object EmptyList : MainAction()
     object Loading : MainAction()
     object FinishLoading : MainAction()
+    object MovieRemoved : MainAction()
 }

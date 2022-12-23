@@ -56,6 +56,9 @@ class MainFragment : Fragment() {
                     movieAdapter.setData(viewState.searchResponse)
             }
             viewState.errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+            if (viewState.cacheResponse != null && viewState.movieRemoved) {
+                viewModel.getMoviesFromCache()
+            }
         }
 
     }
