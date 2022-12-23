@@ -39,6 +39,11 @@ class MainReducer : Reducer<MainState, MainAction> {
                     id = action.movieId,
                 )
             }
+            is MainAction.AddMovieToCache -> {
+                currentState.copy(
+                    id = action.moviesResponse.imdbID,
+                )
+            }
             is MainAction.SearchMovies -> {
                 currentState.copy(
                     query = action.query,
@@ -49,9 +54,13 @@ class MainReducer : Reducer<MainState, MainAction> {
                     showProgressBar = true,
                 )
             }
+            MainAction.FinishLoading -> {
+                currentState.copy(
+                    showProgressBar = false,
+                )
+            }
             MainAction.GetMoviesFromCache -> {
                 currentState.copy(
-                    showProgressBar = true,
                 )
             }
             is MainAction.SuccessGetMovies -> {

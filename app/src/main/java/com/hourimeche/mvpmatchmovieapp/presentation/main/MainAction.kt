@@ -10,6 +10,8 @@ import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Action
  */
 sealed class MainAction : Action {
     object GetMoviesFromCache : MainAction()
+    data class AddMovieToCache(val moviesResponse: MovieResponse) : MainAction()
+    data class RemoveMovieFromCache(val moviesResponse: MovieResponse) : MainAction()
     data class SearchMovies(val query: String) : MainAction()
     data class GetMovie(val movieId: String) : MainAction()
     data class SuccessGetMovie(val moviesResponse: MovieResponse) : MainAction()
@@ -17,4 +19,5 @@ sealed class MainAction : Action {
     data class SuccessGetMovies(val movies: List<MovieResponse>) : MainAction()
     data class Error(val errorMessage: String) : MainAction()
     object Loading : MainAction()
+    object FinishLoading : MainAction()
 }

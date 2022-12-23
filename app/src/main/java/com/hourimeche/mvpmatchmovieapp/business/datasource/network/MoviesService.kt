@@ -15,7 +15,7 @@ interface MoviesService {
         @Query("apikey") apikey: String = Constants.API_KEY
     ): Response<SearchResponse>
 
-    @GET
+    @GET(".")
     suspend fun getMovieById(
         @Query("i") idToSearch: String,
         @Query("apikey") apikey: String = Constants.API_KEY

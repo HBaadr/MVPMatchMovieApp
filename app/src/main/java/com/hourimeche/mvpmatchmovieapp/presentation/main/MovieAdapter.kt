@@ -30,12 +30,12 @@ class MovieAdapter(private val context: Context) :
         val movie = data[position]
         with(holder) {
             "${movie.Title} (${movie.Year})".also { binding.movieTitle.text = it }
-            movie.Type.also { binding.movieType.text = it?.firstCap() }
-            ("Genre: ${movie.Genre}\n" +
-                    "Actors: ${movie.Actors}\n" +
-                    "Plot: ${movie.Plot}").also { binding.movieDescription.text = it }
-            if (movie.imdbRating != null)
-                binding.movieRating.rating = movie.imdbRating.toFloat() / 2
+            movie.Type.let { binding.movieType.text = it?.firstCap() }
+            movie.Plot.let { binding.movieDescription.text = it }
+            movie.imdbRating.let {
+                binding.movieRating.rating =
+                    movie.imdbRating?.toFloat()?.div(2) ?: 0F
+            }
             binding.movieRating.visibility =
                 if (movie.imdbRating != null) View.VISIBLE else View.INVISIBLE
             binding.movieDescription.visibility =

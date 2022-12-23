@@ -2,8 +2,10 @@ package com.hourimeche.mvpmatchmovieapp.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hourimeche.mvpmatchmovieapp.business.datasource.cache.movie.MovieDao
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.CacheMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.LoggingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.NetworkingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    moviesService: MoviesService
+    moviesService: MoviesService,
+    movieDao: MovieDao
 ) : ViewModel() {
     private val store = Store(
         initialState = MainState(),
@@ -22,6 +25,7 @@ class MainViewModel @Inject constructor(
         middlewares = listOf(
             LoggingMiddleware(),
             NetworkingMiddleware(moviesService),
+            CacheMiddleware(moviesService, movieDao),
         )
     )
 
@@ -52,10 +56,18 @@ class MainViewModel @Inject constructor(
     }
 
     fun addMovieToCache(movie: MovieResponse) {
+        val action = MainAction.AddMovieToCache(movie)
 
+        viewModelScope.launch {
+            store.dispatch(action)
+        }
     }
 
     fun removeMovieFromCache(movie: MovieResponse) {
+        val action = MainAction.RemoveMovieFromCache(movie)
 
+        viewModelScope.launch {
+            store.dispatch(action)
+        }
     }
 }

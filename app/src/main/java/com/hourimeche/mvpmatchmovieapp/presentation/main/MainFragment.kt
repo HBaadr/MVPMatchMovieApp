@@ -82,7 +82,7 @@ class MainFragment : Fragment() {
             else
                 viewModel.searchMovies(text.toString())
         }
-
+        viewModel.getMoviesFromCache()
     }
 
 }
