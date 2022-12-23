@@ -34,9 +34,13 @@ class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAda
             "${movie.Title} (${movie.Year})".also { binding.movieTitle.text = it }
             movie.Type.let { binding.movieType.text = it?.firstCap() }
             movie.Plot.let { binding.movieDescription.text = it }
-            movie.imdbRating.let {
+
+            try {
                 binding.movieRating.rating = movie.imdbRating?.toFloat()?.div(2) ?: 0F
+            } catch (ignored: Exception) {
+                binding.movieRating.visibility = View.INVISIBLE
             }
+
             binding.movieRating.visibility =
                 if (movie.imdbRating != null) View.VISIBLE else View.INVISIBLE
             binding.movieDescription.visibility =
