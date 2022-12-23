@@ -3,4 +3,6 @@
     <string name="fav_movies">Favorites Movies/TV shows</string>
     <string name="search_for">"Search for: "</string>
     <string name="enter_three_characters">You must enter at least 3 characters</string>
+    <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
 </resources>

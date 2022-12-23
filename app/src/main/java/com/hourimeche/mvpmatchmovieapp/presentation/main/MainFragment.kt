@@ -51,12 +51,12 @@ class MainFragment : Fragment() {
                 if (viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
             binding.recyclerView.visibility =
                 if (!viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
-            binding.textToSearch.isEnabled = !viewState.showProgressBar
             if (binding.progressCircular.visibility != View.VISIBLE) {
                 if (viewState.cacheResponse != null)
                     movieAdapter.setData(viewState.cacheResponse)
                 if (viewState.searchResponse != null)
                     movieAdapter.setData(viewState.searchResponse)
+                binding.btnSearch.text = getString(R.string.favorites)
             }
             viewState.errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
             if (viewState.cacheResponse != null && viewState.movieRemoved) {
@@ -104,13 +104,19 @@ class MainFragment : Fragment() {
         })
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = movieAdapter
+        binding.btnSearch.setOnClickListener {
+            if (binding.btnSearch.text.equals(getString(R.string.favorites)))
+                viewModel.getMoviesFromCache()
+            else
+                viewModel.searchMovies(binding.btnSearch.text.toString())
+        }
 
         binding.textToSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s!!.isEmpty())
-                    viewModel.getMoviesFromCache()
+                    binding.btnSearch.text = getString(R.string.favorites)
                 else
-                    viewModel.searchMovies(s.toString())
+                    binding.btnSearch.text = getString(R.string.search)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
