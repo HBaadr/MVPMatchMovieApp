@@ -45,6 +45,10 @@ class MainFragment : Fragment() {
     private fun processViewState(viewState: MainState) {
 
         lifecycleScope.launch {
+            if (viewState.moviesResponse != null && binding.progressCircular.visibility != View.VISIBLE) {
+                val dialog = MovieDialog.newInstance(viewState.moviesResponse)
+                dialog?.show(childFragmentManager, MovieDialog.TAG)
+            }
             binding.progressCircular.visibility =
                 if (viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
             binding.noMovieFound.visibility =
@@ -93,8 +97,7 @@ class MainFragment : Fragment() {
             }
 
             override fun openMovieDialog(movie: MovieResponse) {
-                val dialog = MovieDialog.newInstance(movie)
-                dialog?.show(childFragmentManager, MovieDialog.TAG)
+                viewModel.getMovie(movie.imdbID)
             }
 
             override suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean {

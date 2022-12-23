@@ -36,6 +36,7 @@ class MainReducer : Reducer<MainState, MainAction> {
             }
             MainAction.Loading -> {
                 currentState.copy(
+                    moviesResponse = null,
                     movieRemoved = false,
                     showProgressBar = true,
                 )
