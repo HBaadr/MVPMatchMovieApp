@@ -29,6 +29,7 @@ class MainViewModel @Inject constructor(
         )
     )
 
+    private val movieDao = movieDao
     val viewState: StateFlow<MainState> = store.state
 
     fun getMovie(movieId: String) {
@@ -69,5 +70,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             store.dispatch(action)
         }
+    }
+
+    suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean {
+        return movieDao.isMovieInFavouriteList(movie.imdbID)
     }
 }

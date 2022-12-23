@@ -17,6 +17,9 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAndReplace(movieEntity: MovieEntity)
 
+    @Query("SELECT EXISTS(SELECT * FROM movie_properties WHERE imdbID = :movieId)")
+    suspend fun isMovieInFavouriteList(movieId: String): Boolean
+
     //@Query("UPDATE movie_properties SET Title = :title WHERE imdbID = :movieId")
     //suspend fun updateMovieTitle(movieId: String, title: String)
 }

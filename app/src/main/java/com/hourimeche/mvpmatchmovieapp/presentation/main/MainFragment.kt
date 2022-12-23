@@ -74,6 +74,10 @@ class MainFragment : Fragment() {
                 viewModel.removeMovieFromCache(movie)
             }
 
+            override suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean {
+                return viewModel.isMovieInFavouriteList(movie)
+            }
+
         })
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = movieAdapter

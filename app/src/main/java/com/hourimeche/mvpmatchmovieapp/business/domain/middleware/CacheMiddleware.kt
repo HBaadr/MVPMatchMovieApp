@@ -44,7 +44,7 @@ class CacheMiddleware(private val moviesService: MoviesService, private val movi
         if (response.isNotEmpty()) {
             store.dispatch(MainAction.SuccessGetMoviesFromCache(movies))
         } else {
-            store.dispatch(MainAction.Error("No movie found"))
+            store.dispatch(MainAction.FinishLoading)
         }
     }
 

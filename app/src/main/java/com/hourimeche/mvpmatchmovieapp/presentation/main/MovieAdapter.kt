@@ -11,6 +11,9 @@ import com.hourimeche.mvpmatchmovieapp.R
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.firstCap
 import com.hourimeche.mvpmatchmovieapp.databinding.CardMovieBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
@@ -39,8 +42,17 @@ class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAda
             binding.movieDescription.visibility =
                 if (movie.Genre != null) View.VISIBLE else View.INVISIBLE
             Glide.with(context).load(movie.Poster).into(binding.moviePoster)
-            binding.movieAddToFavorite.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) listener.addMovieToFav(movie) else listener.removeMovieFromFav(movie)
+
+            CoroutineScope(Dispatchers.Main).launch {
+                binding.movieAddToFavorite.setOnCheckedChangeListener(null)
+                val isMovieInFavouriteList = listener.isMovieInFavouriteList(movie)
+                if (binding.movieAddToFavorite.isChecked != isMovieInFavouriteList)
+                    binding.movieAddToFavorite.isChecked = isMovieInFavouriteList
+                binding.movieAddToFavorite.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) listener.addMovieToFav(movie) else listener.removeMovieFromFav(
+                        movie
+                    )
+                }
             }
         }
     }
@@ -67,5 +79,6 @@ class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAda
     interface MovieListener {
         fun addMovieToFav(movie: MovieResponse)
         fun removeMovieFromFav(movie: MovieResponse)
+        suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean
     }
 }
