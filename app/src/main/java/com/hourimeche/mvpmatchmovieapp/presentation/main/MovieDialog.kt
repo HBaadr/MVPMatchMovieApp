@@ -88,7 +88,11 @@ class MovieDialog : DialogFragment() {
 
         binding.movieRating.visibility =
             if (movie.vote_average != null) View.VISIBLE else View.INVISIBLE
-        Glide.with(requireActivity()).load(Constants.IMAGES_URL + movie.poster_path)
+        val posterUrl =
+            if (movie.poster_path == null || movie.poster_path.isEmpty()) Constants.NOT_AVAILABLE_POSTER
+            else Constants.IMAGES_URL + movie.poster_path
+        Glide.with(requireActivity())
+            .load(posterUrl)
             .into(binding.moviePoster)
 
         binding.btnHide.setOnClickListener {

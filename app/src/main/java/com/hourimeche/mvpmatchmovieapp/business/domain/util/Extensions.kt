@@ -9,9 +9,11 @@ fun String?.getYear(): String {
     return "(" + this.substring(0, 4) + ")"
 }
 
-fun List<Int>.getGenres(isMovie: Boolean): String {
+fun List<Int>?.getGenres(isMovie: Boolean): String {
     var genres = ""
     val separator = ", "
+    if (this == null)
+        return genres
     if (isMovie) {
         if (Session.MOVIE_GENRES.isEmpty())
             return genres

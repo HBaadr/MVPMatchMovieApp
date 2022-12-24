@@ -57,7 +57,12 @@ class MovieAdapter(private val context: Context) : RecyclerView.Adapter<MovieAda
                 if (movie.vote_average != null) View.VISIBLE else View.INVISIBLE
             binding.movieDescription.visibility =
                 if (movie.media_type != null) View.VISIBLE else View.INVISIBLE
-            Glide.with(context).load(Constants.IMAGES_URL + movie.poster_path)
+
+            val posterUrl =
+                if (movie.poster_path == null || movie.poster_path.isEmpty()) Constants.NOT_AVAILABLE_POSTER
+                else Constants.IMAGES_URL + movie.poster_path
+            Glide.with(context)
+                .load(posterUrl)
                 .into(binding.moviePoster)
 
             CoroutineScope(Dispatchers.Main).launch {
