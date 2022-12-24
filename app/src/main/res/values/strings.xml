@@ -5,4 +5,5 @@
     <string name="enter_three_characters">You must enter at least 3 characters</string>
     <string name="search">Search</string>
     <string name="favorites">Favorites</string>
+    <string name="no_internet">No Internet Connection</string>
 </resources>

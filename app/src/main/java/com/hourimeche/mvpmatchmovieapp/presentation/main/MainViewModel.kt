@@ -9,6 +9,7 @@ import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.CacheMiddlewar
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.LoggingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.NetworkingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
+import com.hourimeche.mvpmatchmovieapp.business.domain.util.CheckNetworkConnection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     moviesService: MoviesService,
+    private val checkNetworkConnection: CheckNetworkConnection,
     private val movieDao: MovieDao
 ) : ViewModel() {
     private val store = Store(
@@ -30,6 +32,10 @@ class MainViewModel @Inject constructor(
     )
 
     val viewState: StateFlow<MainState> = store.state
+
+    fun getNetworkChecker(): CheckNetworkConnection {
+        return checkNetworkConnection
+    }
 
     fun getMovie(movieId: String) {
         val action = MainAction.GetMovie(movieId)

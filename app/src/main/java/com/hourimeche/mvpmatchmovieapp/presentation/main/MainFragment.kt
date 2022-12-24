@@ -1,11 +1,14 @@
 package com.hourimeche.mvpmatchmovieapp.presentation.main
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -13,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.hourimeche.mvpmatchmovieapp.R
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
 import com.hourimeche.mvpmatchmovieapp.databinding.FragmentMainBinding
@@ -33,6 +37,8 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var snackbar: Snackbar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +48,9 @@ class MainFragment : Fragment() {
             viewModel.viewState.collect { viewState ->
                 processViewState(viewState)
             }
+        }
+        viewModel.getNetworkChecker().observe(this) { isConnected ->
+            if (isConnected) snackbar.dismiss() else snackbar.show()
         }
     }
 
@@ -143,6 +152,7 @@ class MainFragment : Fragment() {
             }
 
         })
+
         viewModel.getMoviesFromCache()
         viewModel.getUnwantedMoviesFromCache()
     }
@@ -157,5 +167,16 @@ class MainFragment : Fragment() {
             val movie = result.getSerializable(MOVIE) as MovieResponse
             viewModel.addMovieToUnwanted(movie)
         }
+
+        snackbar =
+            Snackbar.make(binding.main, getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
+        snackbar.view.setBackgroundColor(Color.RED)
+        val snackbarTextview =
+            snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        snackbarTextview.setTextColor(Color.WHITE)
+        snackbarTextview.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        snackbarTextview.gravity = Gravity.CENTER_HORIZONTAL
+        snackbarTextview.textSize = 18f
+
     }
 }
