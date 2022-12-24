@@ -1,7 +1,6 @@
 package com.hourimeche.mvpmatchmovieapp.presentation.main
 
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.Movie
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Action
 
 
@@ -10,33 +9,29 @@ import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Action
  */
 sealed class MainAction : Action {
     // Add movie to favorite cache
-    data class AddMovieToCache(val moviesResponse: MovieResponse) : MainAction()
+    data class AddMovieToCache(val moviesResponse: Movie) : MainAction()
 
     // Remove movie from favorite cache
-    data class RemoveMovieFromCache(val moviesResponse: MovieResponse) : MainAction()
+    data class RemoveMovieFromCache(val moviesResponse: Movie) : MainAction()
     object MovieRemoved : MainAction()
 
     // Get Movie by SEARCH
     data class SearchMovies(val query: String) : MainAction()
-    data class SuccessSearchMovies(val searchResponse: SearchResponse) : MainAction()
-
-    // Get movie by ID
-    data class GetMovie(val movieId: String) : MainAction()
-    data class SuccessGetMovie(val moviesResponse: MovieResponse) : MainAction()
+    data class SuccessSearchMovies(val searchResponse: List<Movie>) : MainAction()
 
     // Get favorite movie from CACHE
-    data class SuccessGetMoviesFromCache(val movies: List<MovieResponse>) : MainAction()
+    data class SuccessGetMoviesFromCache(val movies: List<Movie>) : MainAction()
     object GetMoviesFromCache : MainAction()
 
     // Error
     data class Error(val errorMessage: String) : MainAction()
 
     // Add movie to unwonted cache
-    class AddMovieToUnwanted(val moviesResponse: MovieResponse) : MainAction()
+    class AddMovieToUnwanted(val moviesResponse: Movie) : MainAction()
     object SuccessAddMovieToUnwanted : MainAction()
 
     // Get unwanted movie from CACHE
-    data class SuccessGetUnwantedMoviesFromCache(val movies: List<MovieResponse>) : MainAction()
+    data class SuccessGetUnwantedMoviesFromCache(val movies: List<Movie>) : MainAction()
     object GetUnwantedMoviesFromCache : MainAction()
 
     // Loader

@@ -18,14 +18,14 @@ class MainReducer : Reducer<MainState, MainAction> {
             // Add movie to favorite cache
             is MainAction.AddMovieToCache -> {
                 currentState.copy(
-                    id = action.moviesResponse.imdbID,
+                    id = action.moviesResponse.id,
                 )
             }
 
             // Add movie to unwanted cache
             is MainAction.AddMovieToUnwanted -> {
                 currentState.copy(
-                    id = action.moviesResponse.imdbID,
+                    id = action.moviesResponse.id,
                     unwantedMovieAdded = false
                 )
             }
@@ -39,7 +39,7 @@ class MainReducer : Reducer<MainState, MainAction> {
             is MainAction.RemoveMovieFromCache -> {
                 currentState.copy(
                     movieRemoved = false,
-                    id = action.moviesResponse.imdbID,
+                    id = action.moviesResponse.id,
                 )
             }
             MainAction.MovieRemoved -> {
@@ -66,23 +66,9 @@ class MainReducer : Reducer<MainState, MainAction> {
             is MainAction.SuccessSearchMovies -> {
                 currentState.copy(
                     showProgressBar = false,
-                    isEmptyList = action.searchResponse.Search?.isEmpty() ?: true,
-                    searchResponse = action.searchResponse.Search,
+                    isEmptyList = action.searchResponse.isEmpty(),
+                    searchResponse = action.searchResponse,
                     isFavouriteScreen = false,
-                )
-            }
-
-            // Get movie by ID
-            is MainAction.GetMovie -> {
-                currentState.copy(
-                    id = action.movieId,
-                    moviesResponse = null,
-                )
-            }
-            is MainAction.SuccessGetMovie -> {
-                currentState.copy(
-                    showProgressBar = false,
-                    moviesResponse = action.moviesResponse,
                 )
             }
 

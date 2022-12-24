@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface MovieDao {
 
-    @Query("SELECT * FROM movie_properties WHERE imdbID = :movieId")
+    @Query("SELECT * FROM movie_properties WHERE id = :movieId")
     suspend fun searchById(movieId: String): MovieEntity?
 
     @Query("SELECT * FROM movie_properties WHERE isFavorite = 1 ORDER BY Title ASC")
@@ -17,8 +17,8 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavorite(movieEntity: MovieEntity)
 
-    @Query("SELECT EXISTS(SELECT * FROM movie_properties WHERE imdbID = :movieId AND isFavorite = 1)")
-    suspend fun isMovieInFavouriteList(movieId: String): Boolean
+    @Query("SELECT EXISTS(SELECT * FROM movie_properties WHERE id = :movieId AND isFavorite = 1)")
+    suspend fun isMovieInFavouriteList(movieId: Int): Boolean
 
     @Query("SELECT * FROM movie_properties WHERE isUnwanted = 1")
     suspend fun getAllUnwantedMovies(): List<MovieEntity?>
@@ -29,7 +29,7 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUnwanted(movieEntity: MovieEntity)
 
-    @Query("SELECT EXISTS(SELECT * FROM movie_properties WHERE imdbID = :movieId AND isUnwanted = 1)")
+    @Query("SELECT EXISTS(SELECT * FROM movie_properties WHERE id = :movieId AND isUnwanted = 1)")
     suspend fun isMovieInUnwantedList(movieId: String): Boolean
 
     //@Query("UPDATE movie_properties SET Title = :title WHERE imdbID = :movieId")

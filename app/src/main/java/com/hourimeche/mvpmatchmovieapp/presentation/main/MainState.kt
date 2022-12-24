@@ -1,6 +1,6 @@
 package com.hourimeche.mvpmatchmovieapp.presentation.main
 
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.Movie
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.State
 
 /**
@@ -8,13 +8,12 @@ import com.hourimeche.mvpmatchmovieapp.business.domain.redux.State
  */
 data class MainState(
     val query: String = "",
-    val id: String = "",
+    val id: Int = -1,
     val showProgressBar: Boolean = false,
     val errorMessage: String? = null,
-    val moviesResponse: MovieResponse? = null,
-    val searchResponse: List<MovieResponse>? = null,
-    val cacheResponse: List<MovieResponse>? = null,
-    val unwantedMovies: List<MovieResponse>? = null,
+    val searchResponse: List<Movie>? = null,
+    val cacheResponse: List<Movie>? = null,
+    val unwantedMovies: List<Movie>? = null,
     val isEmptyList: Boolean = true,
     val movieRemoved: Boolean = false,
     val unwantedMovieAdded: Boolean = false,

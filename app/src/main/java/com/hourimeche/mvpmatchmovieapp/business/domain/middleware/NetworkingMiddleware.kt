@@ -1,8 +1,7 @@
 package com.hourimeche.mvpmatchmovieapp.business.domain.middleware
 
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.SearchResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.Movie
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Middleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.redux.Store
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
@@ -21,28 +20,7 @@ class NetworkingMiddleware(private val moviesService: MoviesService) :
             is MainAction.SearchMovies -> {
                 searchMovies(store, action.query)
             }
-            is MainAction.GetMovie -> {
-                getMovie(store, action.movieId)
-            }
             else -> {}
-        }
-    }
-
-    private suspend fun getMovie(
-        store: Store<MainState, MainAction>,
-        movieId: String,
-    ) {
-        store.dispatch(MainAction.Loading)
-
-        val response = moviesService.getMovieById(
-            movieId,
-            Constants.API_KEY
-        )
-
-        if (response.isSuccessful) {
-            store.dispatch(MainAction.SuccessGetMovie(response.body()!!))
-        } else {
-            store.dispatch(MainAction.Error(response.errorBody().toString()))
         }
     }
 
@@ -58,24 +36,20 @@ class NetworkingMiddleware(private val moviesService: MoviesService) :
         )
 
         if (response.isSuccessful) {
-            if (response.body()!!.Response) {
-                val allMovies = ArrayList<MovieResponse>()
-                response.body()!!.Search?.let { allMovies.addAll(it) }
-                val moviesUnwanted = ArrayList<MovieResponse>()
+            if (response.body()!!.results.isNotEmpty()) {
+                val allMovies = ArrayList<Movie>()
+                response.body()!!.results.let { allMovies.addAll(it) }
+                val moviesUnwanted = ArrayList<Movie>()
                 store.state.value.unwantedMovies?.let { moviesUnwanted.addAll(it) }
-                for (movie in ArrayList<MovieResponse>(allMovies)) {
+                for (movie in ArrayList<Movie>(allMovies)) {
                     for (unwanted in moviesUnwanted) {
-                        if (movie.imdbID == unwanted.imdbID)
+                        if (movie.id == unwanted.id)
                             allMovies.remove(movie)
                     }
                 }
                 store.dispatch(
                     MainAction.SuccessSearchMovies(
-                        SearchResponse(
-                            true,
-                            allMovies,
-                            null
-                        )
+                        allMovies
                     )
                 )
             } else

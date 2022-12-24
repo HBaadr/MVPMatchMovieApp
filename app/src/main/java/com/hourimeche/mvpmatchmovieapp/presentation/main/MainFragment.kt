@@ -18,7 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.hourimeche.mvpmatchmovieapp.R
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.Movie
 import com.hourimeche.mvpmatchmovieapp.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -57,10 +57,6 @@ class MainFragment : Fragment() {
     private fun processViewState(viewState: MainState) {
 
         lifecycleScope.launch {
-            if (viewState.moviesResponse != null) {
-                val dialog = MovieDialog.newInstance(viewState.moviesResponse)
-                dialog.show(childFragmentManager, MovieDialog.TAG)
-            }
 
             viewState.searchResponse?.let {
                 movieAdapter.setData(it)
@@ -91,7 +87,6 @@ class MainFragment : Fragment() {
             (activity as AppCompatActivity).supportActionBar?.title =
                 when (binding.textToSearch.text.toString().length) {
                     0 -> getString(R.string.fav_movies)
-                    in 1..2 -> getString(R.string.enter_three_characters)
                     else -> getString(R.string.search_for) + binding.textToSearch.text
                 }
         }
@@ -108,19 +103,20 @@ class MainFragment : Fragment() {
     private fun initiateView() {
         movieAdapter = MovieAdapter(requireContext())
         movieAdapter.setListener(object : MovieAdapter.MovieListener {
-            override fun addMovieToFav(movie: MovieResponse) {
+            override fun addMovieToFav(movie: Movie) {
                 viewModel.addMovieToCache(movie)
             }
 
-            override fun removeMovieFromFav(movie: MovieResponse) {
+            override fun removeMovieFromFav(movie: Movie) {
                 viewModel.removeMovieFromCache(movie)
             }
 
-            override fun openMovieDialog(movie: MovieResponse) {
-                viewModel.getMovie(movie.imdbID)
+            override fun openMovieDialog(movie: Movie) {
+                val dialog = MovieDialog.newInstance(movie)
+                dialog.show(childFragmentManager, MovieDialog.TAG)
             }
 
-            override suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean {
+            override suspend fun isMovieInFavouriteList(movie: Movie): Boolean {
                 return viewModel.isMovieInFavouriteList(movie)
             }
 
@@ -164,7 +160,7 @@ class MainFragment : Fragment() {
             REQUEST_KEY,
             viewLifecycleOwner
         ) { _, result ->
-            val movie = result.getSerializable(MOVIE) as MovieResponse
+            val movie = result.getSerializable(MOVIE) as Movie
             viewModel.addMovieToUnwanted(movie)
         }
 

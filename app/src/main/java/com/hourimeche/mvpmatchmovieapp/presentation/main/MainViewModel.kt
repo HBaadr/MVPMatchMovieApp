@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hourimeche.mvpmatchmovieapp.business.datasource.cache.movie.MovieDao
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.MoviesService
-import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.MovieResponse
+import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.Movie
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.CacheMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.LoggingMiddleware
 import com.hourimeche.mvpmatchmovieapp.business.domain.middleware.NetworkingMiddleware
@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
         middlewares = listOf(
             LoggingMiddleware(),
             NetworkingMiddleware(moviesService),
-            CacheMiddleware(moviesService, movieDao),
+            CacheMiddleware(movieDao),
         )
     )
 
@@ -35,14 +35,6 @@ class MainViewModel @Inject constructor(
 
     fun getNetworkChecker(): CheckNetworkConnection {
         return checkNetworkConnection
-    }
-
-    fun getMovie(movieId: String) {
-        val action = MainAction.GetMovie(movieId)
-
-        viewModelScope.launch {
-            store.dispatch(action)
-        }
     }
 
     fun searchMovies(title: String) {
@@ -69,7 +61,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun addMovieToCache(movie: MovieResponse) {
+    fun addMovieToCache(movie: Movie) {
         val action = MainAction.AddMovieToCache(movie)
 
         viewModelScope.launch {
@@ -77,7 +69,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun removeMovieFromCache(movie: MovieResponse) {
+    fun removeMovieFromCache(movie: Movie) {
         val action = MainAction.RemoveMovieFromCache(movie)
 
         viewModelScope.launch {
@@ -85,11 +77,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    suspend fun isMovieInFavouriteList(movie: MovieResponse): Boolean {
-        return movieDao.isMovieInFavouriteList(movie.imdbID)
+    suspend fun isMovieInFavouriteList(movie: Movie): Boolean {
+        return movieDao.isMovieInFavouriteList(movie.id)
     }
 
-    fun addMovieToUnwanted(movie: MovieResponse) {
+    fun addMovieToUnwanted(movie: Movie) {
         val action = MainAction.AddMovieToUnwanted(movie)
 
         viewModelScope.launch {
