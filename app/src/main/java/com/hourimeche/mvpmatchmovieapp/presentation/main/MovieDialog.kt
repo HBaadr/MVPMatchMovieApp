@@ -59,7 +59,7 @@ class MovieDialog : DialogFragment() {
         if (movie.media_type != null)
             movie.media_type.let { binding.movieType.text = it.firstCap() }
 
-        if (movie.genres != null)
+        if (movie.genres != null && movie.genres!!.isNotEmpty())
             binding.movieDescription.append("- Genre: ${movie.genres}\n")
 
         if (movie.original_title != null)

@@ -70,7 +70,7 @@ class MainFragment : Fragment() {
             binding.noMovieFound.visibility =
                 if (viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
             binding.recyclerView.visibility =
-                if (!viewState.isEmptyList) View.VISIBLE else View.INVISIBLE
+                if (!viewState.isEmptyList && !viewState.showProgressBar) View.VISIBLE else View.INVISIBLE
 
             if (viewState.movieRemoved)
                 viewModel.getMoviesFromCache()
