@@ -1,5 +1,7 @@
 package com.hourimeche.mvpmatchmovieapp.business.domain.util
 
+import java.util.*
+
 
 fun String.firstCap() = this.replaceFirstChar { it.uppercase() }
 
@@ -35,4 +37,8 @@ fun List<Int>?.getGenres(isMovie: Boolean): String {
         genres.substring(0, genres.length - 2)
     else
         genres
+}
+
+fun String.getLanguage(): String {
+    return Locale(this).displayLanguage
 }

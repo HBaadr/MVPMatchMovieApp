@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.hourimeche.mvpmatchmovieapp.business.datasource.network.responses.Movie
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.Constants
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.firstCap
+import com.hourimeche.mvpmatchmovieapp.business.domain.util.getLanguage
 import com.hourimeche.mvpmatchmovieapp.business.domain.util.getYear
 import com.hourimeche.mvpmatchmovieapp.databinding.DialogMovieBinding
 
@@ -72,7 +73,7 @@ class MovieDialog : DialogFragment() {
             binding.movieDescription.append("- First air date: ${movie.first_air_date}\n")
 
         if (movie.original_language != null)
-            binding.movieDescription.append("- Original language: ${movie.original_language}\n")
+            binding.movieDescription.append("- Original language: ${movie.original_language.getLanguage()}\n")
 
         if (movie.popularity != null)
             binding.movieDescription.append("- Popularity: ${movie.popularity}\n")
