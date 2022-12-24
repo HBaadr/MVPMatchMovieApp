@@ -59,20 +59,23 @@ class MovieDialog : DialogFragment() {
         if (movie.media_type != null)
             movie.media_type.let { binding.movieType.text = it.firstCap() }
 
-        if (movie.original_language != null)
-            binding.movieDescription.append("- Original language: ${movie.original_language}\n")
+        if (movie.genres != null)
+            binding.movieDescription.append("- Genre: ${movie.genres}\n")
 
         if (movie.original_title != null)
             binding.movieDescription.append("- Original title: ${movie.original_title}\n")
-
-        if (movie.popularity != null)
-            binding.movieDescription.append("- Popularity: ${movie.popularity}\n")
 
         if (movie.release_date != null)
             binding.movieDescription.append("- Release date: ${movie.release_date}\n")
 
         if (movie.first_air_date != null)
             binding.movieDescription.append("- First air date: ${movie.first_air_date}\n")
+
+        if (movie.original_language != null)
+            binding.movieDescription.append("- Original language: ${movie.original_language}\n")
+
+        if (movie.popularity != null)
+            binding.movieDescription.append("- Popularity: ${movie.popularity}\n")
 
         if (movie.overview != null)
             binding.movieDescription.append("- Overview: ${movie.overview}")

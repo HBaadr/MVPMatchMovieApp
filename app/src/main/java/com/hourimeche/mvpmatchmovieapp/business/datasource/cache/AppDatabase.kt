@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.hourimeche.mvpmatchmovieapp.business.datasource.cache.movie.MovieDao
 import com.hourimeche.mvpmatchmovieapp.business.datasource.cache.movie.MovieEntity
 
-@Database(entities = [MovieEntity::class], version = 1)
+@Database(entities = [MovieEntity::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getMovieDao(): MovieDao

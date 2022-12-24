@@ -20,8 +20,8 @@ data class MovieEntity(
     @ColumnInfo(name = "name")
     val name: String?,
 
-    //@ColumnInfo(name = "genre_ids")
-    //val genre_ids: List<Int>,
+    @ColumnInfo(name = "genres")
+    val genres: String?,
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
@@ -71,7 +71,7 @@ fun MovieEntity.toMovie(): Movie {
     return Movie(
         adult = adult,
         backdrop_path = backdrop_path,
-        //genre_ids = genre_ids,
+        genre_ids = emptyList(),
         id = id,
         original_language = original_language,
         media_type = media_type,
@@ -81,6 +81,7 @@ fun MovieEntity.toMovie(): Movie {
         first_air_date = first_air_date,
         poster_path = poster_path,
         release_date = release_date,
+        genres = genres,
         title = title,
         name = name,
         video = video,
@@ -98,6 +99,7 @@ fun Movie.toEntity(isFavorite: Boolean, isUnwanted: Boolean): MovieEntity {
         media_type = media_type,
         original_language = original_language,
         name = name,
+        genres = genres,
         first_air_date = first_air_date,
         original_title = original_title,
         overview = overview,
